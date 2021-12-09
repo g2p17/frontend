@@ -1,55 +1,43 @@
 <template>
-	<div>
-		<div class="header">
-			<nav>
-				<button v-if="is_auth" v-on:click="loadHome">Inicio</button>
-				<button v-if="is_auth" v-on:click="logOut">Cerrar Sesión</button>
-				<button v-if="!is_auth" v-on:click="loadLogIn">Iniciar Sesión</button>
-				<button v-if="!is_auth" v-on:click="loadSignUp">Registrarse</button>
-			</nav>
-		</div>
-
-		<div class="main-component">
+  <div id="app">     
+    <div class="common-layout">    
+      <el-container>
+        <el-header>
+          <!--<head> <script src="https://kit.fontawesome.com/35e3c3d0df.js" crossorigin="anonymous"></script></head>-->
+          <nav-bar />            
+        </el-header> 
+        <el-main>		
 			<router-view
 				v-on:completedLogIn="completedLogIn"
 				v-on:completedSignUp="completedSignUp"
 				v-on:logOut="logOut"
 			>
-			</router-view>
-		</div>
-	</div>
+			</router-view> 
+        </el-main>
+        <el-footer>
+          <footer-parking />
+        </el-footer>
+      </el-container>
+    </div> 
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
 
 
 <script>
-import { mapGetters } 				from "vuex";
+
+import	{ mapGetters } 	from "vuex";
+import	NavBar 			from '@/components/NavBar.vue'
+import	FooterParking 	from '@/components/FooterParking.vue'
 
 export default {
 	
 	name: "App",
+
+	components: {
+    NavBar,
+    FooterParking,
+   },
 
 	computed: {
 		...mapGetters(["sessionInfo"]),
@@ -103,3 +91,40 @@ export default {
 	},
 };
 </script>
+
+
+<style>
+  #app {
+    font-family: 'Helvetica Neue';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+  }
+
+  .el-header,
+  .el-footer {
+    margin: 0;
+    padding: 0px;
+    line-height: 60px;
+  }
+
+  .el-main {
+    background-color: #e9eef3;
+    color: var(--el-text-color-primary);
+    text-align: center;
+    line-height: 160px;
+    margin: 0px;
+    padding: 0px;
+
+
+  }
+
+  body > .el-container {
+    margin-bottom: 40px;
+ 
+  }
+</style>
+
