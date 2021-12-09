@@ -33,7 +33,7 @@ const router = createRouter({
 })
 
 const apolloClient = new ApolloClient({
-	link: createHttpLink({ uri: 'http://127.0.0.1:4000' }),
+	link: createHttpLink({ uri: 'https://parkingweb-apigateway.herokuapp.com' }),
 	cache: new InMemoryCache()
 })
 
