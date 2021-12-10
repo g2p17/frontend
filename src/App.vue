@@ -1,43 +1,53 @@
 <template>
-  <div id="app">     
-    <div class="common-layout">    
-      <el-container>
-        <el-header>
-          <!--<head> <script src="https://kit.fontawesome.com/35e3c3d0df.js" crossorigin="anonymous"></script></head>-->
-          <nav-bar />            
-        </el-header> 
-        <el-main>		
-			<router-view
-				v-on:completedLogIn="completedLogIn"
-				v-on:completedSignUp="completedSignUp"
+<div id="app">     
+	<div class="common-layout">    
+		<el-container>
+			<el-header>
+			<!--<head> <script src="https://kit.fontawesome.com/35e3c3d0df.js" crossorigin="anonymous"></script></head>-->		
+				<nav-bar
+				:isauth="message"
+				v-on:loadHome="loadHome"
 				v-on:logOut="logOut"
-			>
-			</router-view> 
-        </el-main>
-        <el-footer>
-          <footer-parking />
-        </el-footer>
-      </el-container>
-    </div> 
-  </div>
+				v-on:loadLogIn="loadLogIn"
+				v-on:loadSignUp="loadSignUp"
+				/>
+			</el-header>
+			<el-main>		
+				<router-view
+					v-on:completedLogIn="completedLogIn"
+					v-on:completedSignUp="completedSignUp"
+					v-on:logOut="logOut"
+				>
+				</router-view> 
+			</el-main>
+			<el-footer>
+				<footer-parking />
+			</el-footer>
+		</el-container>
+	</div> 
+</div>
 </template>
 
 
 
 <script>
-
 import	{ mapGetters } 	from "vuex";
 import	NavBar 			from '@/components/NavBar.vue'
 import	FooterParking 	from '@/components/FooterParking.vue'
 
-export default {
-	
+export default {	
 	name: "App",
 
+	data: function () {
+		return {
+			message: undefined,
+		};
+	},
+
 	components: {
-    NavBar,
-    FooterParking,
-   },
+		NavBar,
+		FooterParking,
+	},
 
 	computed: {
 		...mapGetters(["sessionInfo"]),
@@ -47,6 +57,11 @@ export default {
 			},
 			set: function () {},
 		},
+	},
+	watch: {
+        is_auth: function() {
+			this.message = this.is_auth;
+		} 
 	},
 
 	methods: {
@@ -94,37 +109,33 @@ export default {
 
 
 <style>
-  #app {
-    font-family: 'Helvetica Neue';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin: 0;
-    padding: 0;
-  }
+	#app {
+		font-family: 'Helvetica Neue';
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-align: center;
+		color: #2c3e50;
+		margin: 0;
+		padding: 0;
+	}
 
-  .el-header,
-  .el-footer {
-    margin: 0;
-    padding: 0px;
-    line-height: 60px;
-  }
+	.el-header,
+	.el-footer {
+		margin: 0;
+		padding: 0px;
+		line-height: 60px;
+	}
+	
+	.el-main {
+		background-color: #e9eef3;
+		color: var(--el-text-color-primary);
+		text-align: center;
+		line-height: 160px;
+		margin: 0px;
+		padding: 0px;
+	}
 
-  .el-main {
-    background-color: #e9eef3;
-    color: var(--el-text-color-primary);
-    text-align: center;
-    line-height: 160px;
-    margin: 0px;
-    padding: 0px;
-
-
-  }
-
-  body > .el-container {
-    margin-bottom: 40px;
- 
-  }
+	body > .el-container {
+		margin-bottom: 40px;
+	}
 </style>
-
