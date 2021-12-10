@@ -6,6 +6,8 @@ import Login 											from '../views/Login.vue'
 import Home 											from '../views/Home.vue'
 import HomePublic										from '../views/HomePublic.vue'
 import SignUp 											from '../views/SignUp.vue'
+import Quotation 										from '../views/Quotation.vue'
+import CheckAvailable									from '../views/CheckAvailable.vue'
 
 const routes = [
 	{
@@ -31,7 +33,19 @@ const routes = [
 		name: "home",
 		component: Home,
 		meta: { requiresAuth: true }
-	}
+	},
+	{
+		path: '/quotation',
+		name: "quotation",
+		component: Quotation,
+		meta: { requiresAuth: false }
+	},
+	{
+		path: '/check-available',
+		name: "checkAvailable",
+		component: CheckAvailable,
+		meta: { requiresAuth: false }
+	},
 ]
 
 const router = createRouter({
@@ -87,7 +101,7 @@ router.beforeEach(async (to, from) => {
 	if (is_auth)
 		return { name: "home" };
 
-	return { name: "logIn" };
+	return { name: "homePublic" };
 })
 
 export default router

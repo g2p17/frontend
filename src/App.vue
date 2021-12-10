@@ -17,6 +17,9 @@
 					v-on:completedLogIn="completedLogIn"
 					v-on:completedSignUp="completedSignUp"
 					v-on:logOut="logOut"
+					v-on:completedQuotation="completedQuotation"
+					v-on:loadHomePublic="loadHomePublic"
+					v-on:loadSignUp="loadSignUp"
 				>
 				</router-view> 
 			</el-main>
@@ -73,6 +76,24 @@ export default {
 			this.$router.push({ name: "signUp" });
 		},
 
+		loadCheckAvailable: function () {
+			this.$router.push({ name: "checkAvailable" });
+		},
+
+		loadHome: function () {
+			this.$router.push({ name: "home" });
+		},
+
+		loadHomePublic: function () {
+			this.$router.push({ name: "homePublic" });
+		},		
+
+		logOut: function () {
+			localStorage.clear();
+			alert("Sesión Cerrada");
+			this.loadLogIn();
+		},		
+
 		completedLogIn: function () {
 			localStorage.setItem("username", this.sessionInfo.username);
 			localStorage.setItem("token_access", this.sessionInfo.tokenAccess);
@@ -86,22 +107,9 @@ export default {
 			this.completedLogIn(data);
 		},
 
-		loadHome: function () {
-			this.$router.push({ name: "home" });
-		},
-
-		loadAccount: function () {
-			this.$router.push({ name: "account" });
-		},
-
-		loadTransaction: function () {
-			this.$router.push({ name: "transaction" });
-		},
-
-		logOut: function () {
-			localStorage.clear();
-			alert("Sesión Cerrada");
-			this.loadLogIn();
+		completedQuotation: function(){
+			alert("Cotización en proceso");
+			this.loadCheckAvailable();
 		},
 	},
 };
