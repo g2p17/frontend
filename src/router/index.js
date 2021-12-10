@@ -4,9 +4,16 @@ import gql 												from "graphql-tag";
 
 import Login 											from '../views/Login.vue'
 import Home 											from '../views/Home.vue'
+import HomePublic										from '../views/HomePublic.vue'
 import SignUp 											from '../views/SignUp.vue'
 
 const routes = [
+	{
+		path: '/',
+		name: "homePublic",
+		component: HomePublic,
+		meta: { requiresAuth: false }
+	},	
 	{
 		path: '/user/login',
 		name: "logIn",
@@ -33,7 +40,9 @@ const router = createRouter({
 })
 
 const apolloClient = new ApolloClient({
-	link: createHttpLink({ uri: 'https://parkingweb-apigateway.herokuapp.com' }),
+	link: createHttpLink({ 
+		uri: `${process.env.VUE_APP_API_GATEWAY_URL}`,
+	}),
 	cache: new InMemoryCache()
 })
 

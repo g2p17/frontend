@@ -1,16 +1,16 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
-import { createApolloProvider }                        from '@vue/apollo-option'
-import { setContext }                                  from 'apollo-link-context'
-import ElementPlus                                     from 'element-plus'
-import 'element-plus/dist/index.css'
-import { createApp }                                   from 'vue'
-import App                                             from './App.vue'
-import router                                          from './router'
-import store                                           from './store'
+import  { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+import  { createApolloProvider }                        from '@vue/apollo-option'
+import  { setContext }                                  from 'apollo-link-context'
+import  ElementPlus                                     from 'element-plus'
+import  'element-plus/dist/index.css'
+
+import  { createApp }                                   from 'vue'
+import  App                                             from './App.vue'
+import  router                                          from './router'
+import  store                                           from './store'
 
 const httpLink = createHttpLink({
-    //uri: 'http://127.0.0.1:4000/'
-    uri: 'https://parkingweb-apigateway.herokuapp.com'
+    uri: `${process.env.VUE_APP_API_GATEWAY_URL}`,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -34,5 +34,3 @@ const apolloProvider = new createApolloProvider({
 createApp(App).use(store).use(router).use(apolloProvider).use(ElementPlus).mount('#app');
 
 export default apolloClient;
-
-
