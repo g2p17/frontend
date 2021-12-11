@@ -71,7 +71,34 @@ export const auth = {
 			} catch (error) {
 				console.warn("   here  " + error.message);
 			}
-		}
+		},
+		async signUpUser({ commit }, user) {
+			try {
+				user.role = "customer";
+				console.log(user.role)
+				const response = await graphqlClient.mutate({
+					mutation: gql`
+						mutation SignUpUser($userInput: SignUpInput) {
+							signUpUser(userInput: $userInput) {
+								refresh
+								access
+							}
+					}`,
+					variables:{
+						userInput: user,
+					}
+                });
+				let sessionInfo = {
+                    username     : user.username,
+                    tokenAccess  : response.data.signUpUser.access,
+                    tokenRefresh : response.data.signUpUser.refresh,
+                }
+                console.log(sessionInfo);
+				commit("setSession", sessionInfo);				
+			} catch (error) {
+				console.warn(error.message);
+			}
+		},		
 	},
 	modules: {
 	}
