@@ -12,10 +12,11 @@
 			>
 		</a>
 		<nav align="right">
-			<button v-if="isauth" v-on:click="loadHome">HOME</button>
-			<button v-if="isauth" v-on:click="logOutm">LOGOUT</button>
+			<button v-if="isauth" v-on:click="loadHomem">HOME</button>			
 			<button v-if="!isauth" v-on:click="loadLogInm">LOGIN</button>
 			<button v-if="!isauth" v-on:click="loadSignUpm">SIGN</button>
+			<button v-if="isauth" v-on:click="loadReservation">BOOK</button>
+			<button v-if="isauth" v-on:click="logOutm">LOGOUT</button>
 		</nav>
 	</div> 
 </template>
@@ -38,7 +39,10 @@ export default {
 		},
 		loadSignUpm() {
 			this.$emit("loadSignUp")
-		},      
+		},
+		loadReservation() {
+			this.$emit("loadReservation")
+		},		
 	}
 }
 </script>

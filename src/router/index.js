@@ -8,6 +8,7 @@ import HomePublic										from '../views/HomePublic.vue'
 import SignUp 											from '../views/SignUp.vue'
 import Quotation 										from '../views/Quotation.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
+import Reservation										from '../views/Reservation.vue'
 
 const routes = [
 	{
@@ -45,6 +46,12 @@ const routes = [
 		name: "checkAvailable",
 		component: CheckAvailable,
 		meta: { requiresAuth: false }
+	},
+	{
+		path: '/reservation',
+		name: "reservation",
+		component: Reservation,
+		meta: { requiresAuth: true }
 	},
 ]
 

@@ -5,23 +5,23 @@ import graphqlClient from '../main';
 export const reservation = {
 	state: {
 		detailQuote: null,
-		sessionInfo: undefined,
+		reserve: null,
 	},
 	getters: {
 		detailQuote: state => state.detailQuote,
+		reserve: state => state.reserve,
 	},	
 	mutations: {
 		setDetailQuote(state, payload) {
 			state.detailQuote = payload;
 		},
-        // eslint-disable-next-line no-unused-vars
-		setSession(state, payload) {
-			
+		setReserve(state, payload) {
+			state.reserve = payload;
 		}
 	},
 	actions: {
 		async searchParkingLot({ commit }, quote) {
-
+			console.log(quote);
 			try {
 				const response = await graphqlClient.query({
 					query: gql`
@@ -38,20 +38,45 @@ export const reservation = {
 						quotation: quote,
 					},
 				});
-				console.info(response.data.computeQuote);
-				commit("setDetailQuote", response.data.computeQuote);
+
+				let detailQuote = {
+					parkingLot : response.data.computeQuote.parkingLot,
+					vehicleType : response.data.computeQuote.vehicleType,
+					entryTime : response.data.computeQuote.entryTime,
+					estimatedTime : quote.estimatedTime,
+					price: response.data.computeQuote.price,
+					state: response.data.computeQuote.state,
+				}
+
+				console.info(detailQuote);
+				commit("setDetailQuote", detailQuote);
 			} catch (error) {
 				console.warn("   here  " + error.message);
 			}
 		},
-        // eslint-disable-next-line no-unused-vars
-		async logInUser({ commit }, user) {
+		async createReserve({ commit }, reserve) {
+			console.log("create reservation")
+			console.info(reserve);
+			try {
+				const response = await graphqlClient.mutate({
+					mutation: gql`
+					mutation Mutation($reservationInput: ReservationInput) {
+						registerReservation(reservationInput: $reservationInput) {
+							reservation
+						}
+					}`,
+					variables: {
+						reservationInput: reserve,
+					}
+				});
 
+                console.log(response.data.registerReservation);
+				commit("setReserve", response.data.registerReservation);
+			} catch (error) {
+				console.warn("   here  " + error.message);
+			}			
 		},
-        // eslint-disable-next-line no-unused-vars
-		async signUpUser({ commit }, user) {
-
-		},		
+	
 	},
 	modules: {
 	}

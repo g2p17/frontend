@@ -10,6 +10,7 @@
 				v-on:logOut="logOut"
 				v-on:loadLogIn="loadLogIn"
 				v-on:loadSignUp="loadSignUp"
+				v-on:loadReservation="loadReservation"
 				/>
 			</el-header>
 			<el-main>		
@@ -86,7 +87,11 @@ export default {
 
 		loadHomePublic: function () {
 			this.$router.push({ name: "homePublic" });
-		},		
+		},
+
+		loadReservation: function () {
+			this.$router.push({ name: "reservation" });
+		},
 
 		logOut: function () {
 			localStorage.clear();
@@ -95,6 +100,11 @@ export default {
 		},		
 
 		completedLogIn: function () {
+			if (this.sessionInfo == null) {
+				alert("Problema de autenticación");	
+				return
+			}
+
 			localStorage.setItem("username", this.sessionInfo.username);
 			localStorage.setItem("token_access", this.sessionInfo.tokenAccess);
 			localStorage.setItem("token_refresh", this.sessionInfo.tokenRefresh);
