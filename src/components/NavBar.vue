@@ -1,16 +1,13 @@
 <template>
 	<div class="header">
-		<a 
-		href="/" 
-		target="_blank" 
-		rel="noopener">
+		<router-link to="/">  
 			<img 
 			alt="ParkingWeb logo" 
-			href="https://www.w3schools.com" 
+			href="/" 
 			align="left" 
-			src="../assets/logo1.png" 
+			src="../assets/logotipo2.png" 
 			>
-		</a>
+		</router-link>
 		<nav align="right">
 			<button v-if="isauth" v-on:click="loadHomem">HOME</button>			
 			<button v-if="!isauth" v-on:click="loadLogInm">LOGIN</button>
