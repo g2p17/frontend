@@ -1,15 +1,13 @@
 <template>
 	<body>
-		<table width="100%" bgcolor=#35f2bd align=center>
+		<table width="100%" align=center>
 			<tr>
 				<td>
-					<a style="color:#35f2bd">Find parking from the ease of your home.</a>
-					<br>
-					<router-link to="/" > Check our availability here </router-link>
 					<br>
 					<br>
+					<router-link to="/quotation"><button>Check here!</button></router-link>
 					<br>
-					<br>
+					<br>			
 				</td>
 			</tr>
 		</table>
@@ -18,7 +16,7 @@
 
 <script>
 export default {
-	name: "Home",
+	name: "HomePublic",
 
 	data: function () {
 		return {
@@ -30,19 +28,24 @@ export default {
 </script>
 
 <style >
-table {
-  background-color: #141826;
-  background-image: url("../assets/123.jpg");
-  padding: 0px;
-  margin: 0%;
-  
-}
-body{
-  padding: 0px;
-  margin: 0%
-}
-a{
-  font-size: 50px;
-  color: aliceblue;
-}
+	table {
+		background-color: #141826;
+		background-image: url("../assets/Home.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		padding: 0px;
+		margin: 0%;
+		/*@import url('https://typodermicfonts.com/coolvetica/');
+		font-family: 'coolvetica';*/
+		font-size: 50px;
+		color: aliceblue;
+	}
+	body{
+		padding: 0px;
+		margin: 0%;
+	}
+	a{
+		font-size: 50px;
+		color: aliceblue;
+	}
 </style>
