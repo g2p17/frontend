@@ -30,59 +30,30 @@
 </template>
 
 <script>
-    import gql from 'graphql-tag';
 
-    export default {
-        name: "SignUp",
+export default {
+    name: "SignUp",
 
-        data: function(){
-            return {
-                user: {
-                    username: "",
-                    identity_document: "",
-                    phone_number: "",
-                    password: "",
-                    name: "",
-                    email: "",
-                    role: "customer"
-                }
-            }
-        },
-
-        methods: {
-            processSignUp: async function(){
-                await this.$apollo.mutate(
-                    {
-                        mutation: gql`
-                            mutation SignUpUser($userInput: SignUpInput) {
-                              signUpUser(userInput: $userInput) {
-                                refresh
-                                access
-                              }
-                            }
-                         `,
-                        variables:{
-                            userInput: this.user,
-                        }
-                    }
-                )
-                .then((result) => {
-                    let dataSignUp = {
-                        username     : this.user.username,
-                        tokenRefresh : result.data.signUpUser.refresh,
-                        tokenAccess  : result.data.signUpUser.access
-                    };
-
-                    console.info(dataSignUp);
-                    this.$emit("completedSignUp", dataSignUp);
-                })
-                .catch((error) => {
-                    console.log(error.message);
-                    alert("ERROR. Fallo en el registro. Intente de nuevo.")
-                })
+    data: function() {
+        return {
+            user: {
+                username            : "",
+                identity_document   : "",
+                phone_number        : "",
+                password            : "",
+                name                : "",
+                email               : ""
             }
         }
+    },
+
+    methods: {
+        processSignUp: async function() {
+            await this.$store.dispatch("signUpUser", this.user);
+            this.$emit("completedSignUp");
+        }
     }
+}
 </script>
 
 <style>
