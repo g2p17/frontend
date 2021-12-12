@@ -4,11 +4,27 @@
             <h1>Hola <span> hola </span>!</h1>
         </div>
 
+        <div class="test">
+            <table>
+                <li><p>a</p><p>b</p><p>c</p></li>
+            </table>
+        </div>
+            
         <div class="details">
-            <h3>Su información es la siguiente</h3>
-            <h2>
+                     <h2>
                 Entrada:
                 <span>{{ quotation.entryTime }}</span>
+                <br>
+                Parking Lot:
+                <span>{{ quotation.parkingLot }}</span>
+            </h2>
+            <h2>
+                Availability:
+                <span>{{ quotation.state }}</span>
+            </h2>
+            <h2>
+                Price:
+                <span>{{ quotation.price }}</span>
             </h2>
             <h2>
                 Estacionamiento:
@@ -71,10 +87,13 @@ export default {
 
 <style scoped>
     .information {
+        background-color: #141826;
+		background-image: url("../assets/BGD2.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
         margin: 0;
         padding: 0%;
-        width: 100%;
-        height: 100%;
+        
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -94,6 +113,7 @@ export default {
         font-weight: bold;
     }
     .details h3 {
+        background: #141826;
         font-size: 35px;
         color: #283747;
         text-align: center;
@@ -107,5 +127,14 @@ export default {
         border-radius: 20px;
         padding: 30px 80px;
         margin: 30px 0 0 0;
+        background: #141826;
+        width: 40%;
+    
+    }
+    .test{
+        background: #35f2bd;
+        width: 40%;
+        height: 300px;
+        font-size: 12px;
     }
 </style>

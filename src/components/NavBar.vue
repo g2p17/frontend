@@ -9,8 +9,10 @@
 			>
 		</router-link>
 		<nav align="right">
-			<button v-if="isauth" v-on:click="loadHomem">HOME</button>			
+			<button v-if="isauth" v-on:click="loadHomem">HOME</button>
 			<button v-if="!isauth" v-on:click="loadLogInm">LOGIN</button>
+			<button v-if="!isauth" v-on:click="loadAboutm">ABOUT</button>			
+			<button v-if="!isauth" v-on:click="loadHomem">BENEFITS</button>
 			<button v-if="!isauth" v-on:click="loadSignUpm">SIGN</button>
 			<button v-if="isauth" v-on:click="loadReservation">BOOK</button>
 			<button v-if="isauth" v-on:click="logOutm">LOGOUT</button>
@@ -39,7 +41,11 @@ export default {
 		},
 		loadReservation() {
 			this.$emit("loadReservation")
-		},		
+		},
+		loadAboutm() {
+			this.$emit("loadAbout")
+		},
+				
 	}
 }
 </script>
@@ -55,6 +61,7 @@ export default {
 		margin: 0;
 		padding: 0;
 		font-size: 20px;
+		text-align: end;
 	}
 	.header img {
 		vertical-align: middle;
@@ -63,9 +70,11 @@ export default {
 		height: 40px;
 	}
 	.header nav button{
+		
 		color: #e9f3f2;
 		background: #141826;
 		border-radius: 6px;
+		border: 0px;
 		width: 9%;
 		padding: 15px 30px 15px 30px;
 		margin: 1px;
