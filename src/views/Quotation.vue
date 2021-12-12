@@ -102,7 +102,7 @@ export default {
 
 <style scoped>
 
-  .signUpUser{
+    .signUpUser{
         margin: 0;
         padding: 0%;
         height: 100%;
