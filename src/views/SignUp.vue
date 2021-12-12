@@ -1,91 +1,56 @@
 <template>
-    <div class="signUpUser">
-        <el-form
-            :model="signUser"
-        >
-            <el-form-item >
-                <el-input v-model="signUser.name"
-                placeholder="User"
-                >
-                </el-input>
+  <div class="signUpUser">
+    <div class="container2">
+        <el-form :model="formLabelAlign">
+            <el-form-item placeholder="User">
+                <el-input v-model="formLabelAlign.user"></el-input>
             </el-form-item>
-            <el-form-item >
-                <el-input v-model="signUser.password"
-                placeholder="Password"
-                >
-                </el-input>
+            <el-form-item placeholder="User">
+                <el-input v-model="formLabelAlign.region"></el-input>
             </el-form-item>
-            <el-form-item >
-                <el-input v-model="signUser.name"
-                placeholder="User"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item >
-                <el-input v-model="signUser.password"
-                placeholder="Password"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item >
-                <el-input v-model="signUser.name"
-                placeholder="User"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item >
-                <el-input v-model="signUser.password"
-                placeholder="Password"
-                >
-                </el-input>
-            </el-form-item>
-                
-                
-                
-                
-                
-                <el-form-item label="Activity form">
+            <el-form-item label="Activity form">
                 <el-input v-model="formLabelAlign.type"></el-input>
             </el-form-item>
-        </el-form>
+      </el-form>
+    </div>
 
-        <div class="container_signUp_user">
-            <h2>Registrarse</h2>
+    <div class="container_signUp_user">
+      <h2>Registrarse</h2>
 
-            <form v-on:submit.prevent="processSignUp">
-                <input type="text" v-model="user.username" placeholder="Usuario" />
-                <br />
+      <form v-on:submit.prevent="processSignUp">
+        <input type="text" v-model="user.username" placeholder="Usuario" />
+        <br />
 
-                <input
-                type="password"
-                v-model="user.password"
-                placeholder="Contraseña"
-                />
-                <br />
+        <input
+          type="password"
+          v-model="user.password"
+          placeholder="Contraseña"
+        />
+        <br />
 
-                <input type="text" v-model="user.name" placeholder="Nombre" />
-                <br />
+        <input type="text" v-model="user.name" placeholder="Nombre" />
+        <br />
 
-                <input type="email" v-model="user.email" placeholder="Correo" />
-                <br />
+        <input type="email" v-model="user.email" placeholder="Correo" />
+        <br />
 
-                <input
-                type="text"
-                v-model="user.identity_document"
-                placeholder="Documento Identidad"
-                />
-                <br />
+        <input
+          type="text"
+          v-model="user.identity_document"
+          placeholder="Documento Identidad"
+        />
+        <br />
 
-                <input
-                type="text"
-                v-model="user.phone_number"
-                placeholder="Numero telefonico"
-                />
-                <br />
+        <input
+          type="text"
+          v-model="user.phone_number"
+          placeholder="Numero telefonico"
+        />
+        <br />
 
-                <button type="submit">Registrarse</button>
-            </form>
-        </div>
+        <button type="submit">Registrarse</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -95,22 +60,21 @@ export default {
 
   data: function () {
     return {
-        user: {
-            username: "",
-            identity_document: "",
-            phone_number: "",
-            password: "",
-            name: "",
-            email: "",
-        },
-        signUser: {
-            name: '',
-            password: '',
-            type: '',
-        },
-
-        };
-    },
+      user: {
+        username: "",
+        identity_document: "",
+        phone_number: "",
+        password: "",
+        name: "",
+        email: "",
+      },
+      formLabelAlign: {
+        user: '',
+        region: '',
+        type: '',
+      }    
+    };
+  },
 
   methods: {
     processSignUp: async function () {
