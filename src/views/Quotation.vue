@@ -13,7 +13,69 @@
                 <br>
                 <button type="submit">Search</button>
             </form>
-        </div>
+        </div>  
+
+        <el-form ref="form" :model="sizeForm" size="large">        
+        <el-form-item >
+        <el-select
+            v-model="sizeForm.region"
+            placeholder="Please select your zone"
+            size="medium"
+            >
+            <el-option label="Zone one" value="shanghai"></el-option>
+            <el-option label="Zone two" value="beijing"></el-option>
+        </el-select>
+        </el-form-item>
+
+        <el-form-item >
+            <el-select
+                v-model="sizeForm.typeVehicle"
+                placeholder="Your type vehicle"
+                size="medium"
+                        >
+                    <el-option label="Car" value="Car"></el-option>
+                    <el-option label="Motorcycle" value="Motorcycle"></el-option>
+                    <el-option label="Bicycle" value="Bicycle"></el-option>
+                    <el-option label="Reduced mobility" value="Reduced mobility"></el-option>
+                </el-select>        
+        </el-form-item>
+
+        <el-form-item >
+        <el-col :span="11">
+            <el-date-picker
+                v-model="sizeForm.date1"
+                type="date"
+                placeholder="Pick a date"
+                style="width: 100%"
+                background-color= #141826;
+            ></el-date-picker>
+        </el-col>
+        <el-col class="line" :span="2">-</el-col>
+        <el-col :span="11">
+            <el-time-picker
+                v-model="sizeForm.date2"
+                placeholder="Pick a time"           
+            ></el-time-picker>
+        </el-col>
+        </el-form-item>
+
+        <el-form-item >
+            <el-input v-model="sizeForm.estimated"
+                placeholder="Estimated time in minutes"
+                style="padding: 0px 30px 0px 0px;"
+            ></el-input>
+        </el-form-item>
+                
+        <el-form-item size="large">
+            <el-col :span="10" :offset="2">
+                <el-button type="primary" @click="onSubmit">Quote</el-button>
+            </el-col>
+            <el-col :span="10">
+                <el-button>Cancel</el-button>
+            </el-col>
+        </el-form-item>
+
+    </el-form>
     </div>
 </template>
 
@@ -28,12 +90,25 @@ export default {
 				entryTime : "2022-13-09T07:00:00.405Z",
 				estimatedTime : 120
 			},
+            sizeForm: {                
+                region: '',
+                typeVehicle:'',
+                date1: '',
+                date2: '',
+                delivery: false,
+                estimated: '',                
+                //a que se refiere este delivery
+                desc: '',
+            },
 		};
 	},
 	methods: {
         processQuote: async function() {
             await this.$store.dispatch("searchParkingLot", this.quotation);
             this.$emit("completedQuotation");
+        },
+        onSubmit() {
+      console.log('submit!')
         }
     }
 };
@@ -85,8 +160,23 @@ export default {
         margin: 5px 0 25px 0;
     }
     .signUpUser button:hover{
-        color: #E5E7E9;
-        background: crimson;
-        border: 1px solid #283747;
+        color: #141826;
+        background: #268c79;
+        
     }
+    form{
+        background-color: #141826;
+		background-image: url("../assets/Quotation.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+        padding: 2% 5% 2% 15%;
+        text-align: left;
+    } 
+    .el-date-picker{
+        background: #99a9bf;
+    }   
+    .sizeForm el-button:hover{
+		color: #141826;
+		background: #268c79;
+	}
 </style>

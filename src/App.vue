@@ -126,7 +126,8 @@ export default {
 </script>
 
 
-<style>
+
+<style scoped>
 	#app {
 		font-family: 'Helvetica Neue';
 		-webkit-font-smoothing: antialiased;
@@ -147,7 +148,7 @@ export default {
 	.el-main {
 		background-color: #e9eef3;
 		color: var(--el-text-color-primary);
-		text-align: center;
+		
 		line-height: 160px;
 		margin: 0px;
 		padding: 0px;
