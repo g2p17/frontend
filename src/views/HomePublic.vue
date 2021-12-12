@@ -48,4 +48,18 @@ export default {
 		font-size: 50px;
 		color: aliceblue;
 	}
+	button{
+		color: #e9f3f2;
+		background: #268c79;
+		border-radius: 6px;
+		width: 9%;
+		padding: 15px 30px 15px 30px;
+		margin: 1px;
+		text-align: center;
+		font-size: 16px;
+	}
+	button:hover{
+		color: #141826;
+		background: #35f2bd;
+	}
 </style>

@@ -68,10 +68,10 @@
                 
         <el-form-item size="large">
             <el-col :span="10" :offset="2">
-                <el-button type="primary" @click="onSubmit">Quote</el-button>
+                <el-button type="submit" @click="onSubmit">Quote</el-button>
             </el-col>
             <el-col :span="10">
-                <el-button>Cancel</el-button>
+                <router-link to="/"><el-button>Cancel</el-button></router-link>
             </el-col>
         </el-form-item>
 
@@ -92,7 +92,6 @@ export default {
 			},
             sizeForm: {                
                 region: '',
-                typeVehicle:'',
                 date1: '',
                 date2: '',
                 delivery: false,

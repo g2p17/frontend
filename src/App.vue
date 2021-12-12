@@ -95,30 +95,30 @@ export default {
 
 		logOut: function () {
 			localStorage.clear();
-			alert("Sesión Cerrada");
+			alert("Closed session");
 			this.loadLogIn();
 		},		
 
 		completedLogIn: function () {
 			if (this.sessionInfo == null) {
-				alert("Problema de autenticación");	
+				alert("Authentication failed");	
 				return
 			}
 
 			localStorage.setItem("username", this.sessionInfo.username);
 			localStorage.setItem("token_access", this.sessionInfo.tokenAccess);
 			localStorage.setItem("token_refresh", this.sessionInfo.tokenRefresh);
-			alert("Autenticación Exitosa");
+			alert("Successful Authentication");
 			this.loadHome();
 		},
 
 		completedSignUp: function (data) {
-			alert("Registro Exitoso");
+			alert("Successful registration");
 			this.completedLogIn(data);
 		},
 
 		completedQuotation: function(){
-			alert("Cotización en proceso");
+			alert("Quotation processing");
 			this.loadCheckAvailable();
 		},
 	},
