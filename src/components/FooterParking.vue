@@ -99,6 +99,8 @@ export default {
 <style scoped>
 h2 {
   margin: 20px 0 0;
+  background: #268c79;
+  color: #e9f3f2;
 }
 ul {
   list-style-type: none;

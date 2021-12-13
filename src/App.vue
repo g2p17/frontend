@@ -11,6 +11,7 @@
 				v-on:loadLogIn="loadLogIn"
 				v-on:loadSignUp="loadSignUp"
 				v-on:loadReservation="loadReservation"
+				v-on:loadAbout="loadAboutm"
 				/>
 			</el-header>
 			<el-main>		
@@ -92,6 +93,11 @@ export default {
 		loadReservation: function () {
 			this.$router.push({ name: "reservation" });
 		},
+		loadAboutm: function(){
+			this.$router.push ({name:"about"})
+		},
+
+
 
 		logOut: function () {
 			localStorage.clear();

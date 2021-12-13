@@ -22,11 +22,9 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button @click="processSignUp('FormSign')">Submit</el-button>
-
-			</el-form-item>
-		</el-form>
-    </div>
-
+				</el-form-item>
+			</el-form>
+			</div>
     <div class="container_signUp_user">
       <h2>Registrarse</h2>
 
@@ -103,23 +101,21 @@ export default {
 
 <style>
 	.signUpUser{
-        margin: 0;
-        padding: 0%;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #141826;
-		background-image: url("../assets/BGD1.jpeg");
-		background-repeat: no-repeat;
-		background-size: cover;
+    margin: 0;
+    padding: 0%;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #141826;
+	background-image: url("../assets/BGD1.jpeg");
+	background-repeat: no-repeat;
+	background-size: cover;
     }
 	.container2{
 		width: 40%;
 		padding: 3%;
 		background-color: #141826;
-		
 	}
-
 </style>
