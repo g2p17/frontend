@@ -1,64 +1,62 @@
 <template>
     <div class="signUpUser">
-        <div class="containerSignUpUser">
-            <h2>Registrarse</h2>
-            <form v-on:submit.prevent="processQuote" >
-                <input type="text" v-model="quotation.parkingLot" placeholder="Parking place">
-                <br>
-                <input type="text" v-model="quotation.vehicleType" placeholder="Vehicle type">
-                <br>
-                <input type="entryTime" v-model="quotation.entryTime" placeholder="Entry time">
-                <br>
-                <input type="number" v-model="quotation.estimatedTime" placeholder="Estimated time">
-                <br>
-                <button type="submit">Search</button>
-            </form>
-        </div>  
 
         <div>
-            <el-form ref="form" :model="sizeForm"  size="medium">
-                
+            <el-form ref="form" :model="formModel"  size="medium">               
 
                 <el-form-item>
                     <el-select
-                        v-model="sizeForm.zone"
-                        placeholder="Please select your Parking"
-                    ></el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-select
-                        v-model="sizeForm.vehicle"
-                        placeholder="Your type vehicle"
-                    ></el-select>
+                    v-model="formModel.quotation.parkingPlace"                    
+                    placeholder="Please select your zone"
+                    size="medium"
+                    >
+                        <el-option 
+                        v-for="(parkinglot, ind) in formModel.parkingLots" :key="ind"
+                        :label="parkinglot.parking_place" :value="parkinglot.parking_place"
+                        ></el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item>
-                <el-col :span="11">
-                    <el-date-picker
-                    v-model="sizeForm.date1"
-                    type="date"
-                    placeholder="Pick a date"
-                    style="width: 100%"
-                    ></el-date-picker>
-                </el-col>
-                <el-col class="line" :span="2">-</el-col>
-                <el-col :span="11">
-                    <el-time-picker
-                    v-model="sizeForm.date2"
-                    placeholder="Pick a time"
-                    style="width: 100%"
-                    ></el-time-picker>
-                </el-col>
+                    <el-select
+                    v-model="formModel.quotation.vehicleType"
+                    placeholder="Your type vehicle"
+                    size="medium"
+                    >
+                        <el-option 
+                        v-for="(vehicleType, ind) in formModel.vehicleTypes" :key="ind"
+                        :label="vehicleType" :value="vehicleType"
+                        ></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-col :span="11">
+                        <el-date-picker
+                        v-model="formModel.quotation.date1"
+                        type="date"
+                        placeholder="Pick a date"
+                        style="width: 100%"
+                        ></el-date-picker>
+                    </el-col>
+                    <el-col class="line" :span="2">-</el-col>
+                    <el-col :span="11">
+                        <el-time-picker
+                        v-model="formModel.quotation.date2"
+                        placeholder="Pick a time"
+                        style="width: 100%"
+                        ></el-time-picker>
+                    </el-col>
                 </el-form-item>
                 <el-form-item >
-                    <el-input v-model="sizeForm.estimatedTime"
+                    <el-input-number  v-model="formModel.quotation.estimatedTime" :min="30" :max="1380"
                         placeholder="Estimated time in minutes"
-                    ></el-input>   
+                    ></el-input-number>
                 </el-form-item>
 
                 <el-form-item size="large">
-                <el-button type="primary" @click="processQuote">Consult</el-button>
-                <el-button>Cancel</el-button>
+                    <el-button type="primary" v-on:click="processQuote">Consult</el-button>
+                    <el-button type="danger" v-on:click="returnHome">Cancel</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -66,37 +64,70 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { ref } from 'vue'
+
 export default {
-  name: "Quotation",
+    name: "Quotation",
+
 	data() {
 		return {
-			quotation: {
-				parkingLot : "ParkElEden",
-				vehicleType : "Motorcycle",
-				entryTime : "2022-13-09T07:00:00.405Z",
-				estimatedTime : 120
-			},
-            sizeForm: {
-                
-                zone: '',
-                vehicle: '',
-                date1: '',
-                date2: '',
-                estimatedTime: '',
-                delivery: false,
-                desc: '',
+            formModel: {                
+                vehicleTypes : [
+                    "Car",
+                    "Motorcycle",
+                    "Bicycle",
+                    "Reduced mobility",
+                ],
+                parkingLots: [],
+                quotation: {
+                    parkingPlace: '',
+                    vehicleType: '',
+                    date1: '',
+                    date2: '',                    
+                    estimatedTime: ref(1),
+                },
             },
 		};
 	},
+
+    computed:{
+        ...mapGetters(["parkinglots"]),
+
+    },
 	methods: {
         processQuote: async function() {
-            await this.$store.dispatch("searchParkingLot", this.quotation);
+            console.log("here")
+            let dateformat = this.formModel.quotation.date1.toString();
+            let hourformat = this.formModel.quotation.date2.toString().split(' ')[4];
+
+            let isoDate = this.parseDate(dateformat, hourformat);
+
+            const quotation = {
+                parkingLot : this.formModel.quotation.parkingPlace,
+				vehicleType : this.formModel.quotation.vehicleType,
+				entryTime : isoDate,
+				estimatedTime : this.formModel.quotation.estimatedTime,
+            }
+            await this.$store.dispatch("searchParkingLot", quotation);
             this.$emit("completedQuotation");
         },
-        onSubmit() {
-      console.log('submit!')
-        }
-    }
+        parseDate(inputDate, inputHour) {
+            console.log(inputDate.split(' ')[2] + " " + inputDate.split(' ')[1] + " " + inputDate.split(' ')[3]);
+            let date = inputDate.split(' ')[2] + " " + inputDate.split(' ')[1] + " " + inputDate.split(' ')[3];
+            console.log(inputHour.split(':')[0] + ":" + inputHour.split(':')[1])
+            let hour = inputHour.split(':')[0] + ":" + inputHour.split(':')[1];
+            console.log(date + " " + hour + " UTC");
+            return (new Date(date + " " + hour + " UTC")).toISOString();
+        },
+        returnHome () {
+            this.$emit("loadHomePublic");
+        },       
+    },
+    async mounted() {
+        await this.$store.dispatch("getParkinglots");
+        this.formModel.parkingLots = this.parkinglots;
+    },
 };
 </script>
 
@@ -159,7 +190,7 @@ export default {
         padding: 2% 5% 2% 15%;
         text-align: left;
     }   
-    .sizeForm el-button:hover{
+    .formModel el-button:hover{
 		color: #141826;
 		background: #268c79;
 	}
