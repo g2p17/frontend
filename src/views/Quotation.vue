@@ -58,12 +58,19 @@
                     <el-button type="primary" v-on:click="processQuote">Consult</el-button>
                     <el-button type="danger" v-on:click="returnHome">Cancel</el-button>
                 </el-form-item>
+
+                <Modal
+                :modalIsShow="modalIsShow"
+                v-on:close_modal="handleAddModal"
+                v-on:reserve="returnSignUp"
+                />  
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
+import Modal from '../components/Modal.vue'
 import { mapGetters } from "vuex";
 import { ref } from 'vue'
 
@@ -88,18 +95,22 @@ export default {
                     estimatedTime: ref(1),
                 },
             },
+            modalIsShow: false,
 		};
 	},
 
+    components: {
+        Modal,
+    },
+
     computed:{
-        ...mapGetters(["parkinglots"]),
+        ...mapGetters(["parkinglots", "detailQuote"]),
 
     },
 	methods: {
-        processQuote: async function() {
-            console.log("here")
+        processQuote: async function() {       
             let dateformat = this.formModel.quotation.date1.toString();
-            let hourformat = this.formModel.quotation.date2.toString().split(' ')[4];
+            let hourformat = this.formModel.quotation.date2.toISOString();
 
             let isoDate = this.parseDate(dateformat, hourformat);
 
@@ -110,19 +121,30 @@ export default {
 				estimatedTime : this.formModel.quotation.estimatedTime,
             }
             await this.$store.dispatch("searchParkingLot", quotation);
-            this.$emit("completedQuotation");
+
+            if (this.detailQuote != null)                
+                this.handleAddModal(true);
         },
         parseDate(inputDate, inputHour) {
-            console.log(inputDate.split(' ')[2] + " " + inputDate.split(' ')[1] + " " + inputDate.split(' ')[3]);
+            //console.log(inputDate.split(' ')[2] + " " + inputDate.split(' ')[1] + " " + inputDate.split(' ')[3]);
             let date = inputDate.split(' ')[2] + " " + inputDate.split(' ')[1] + " " + inputDate.split(' ')[3];
-            console.log(inputHour.split(':')[0] + ":" + inputHour.split(':')[1])
-            let hour = inputHour.split(':')[0] + ":" + inputHour.split(':')[1];
+            //console.log(inputHour.split(':')[0] + ":" + inputHour.split(':')[1])            
+            let midHour = inputHour.split('T')[1].split(':')
+            //console.log("hola1 " + h[0] + ":" + h[1]);
+            let hour = midHour[0] + ":" + midHour[1];            
+            //let hour = inputHour.split('T')[1].split(':');
             console.log(date + " " + hour + " UTC");
             return (new Date(date + " " + hour + " UTC")).toISOString();
         },
+        handleAddModal(value) {
+            this.modalIsShow = value;
+        },        
         returnHome () {
             this.$emit("loadHomePublic");
-        },       
+        },      
+        returnSignUp () {
+            this.$emit("loadSignUp");
+        }
     },
     async mounted() {
         await this.$store.dispatch("getParkinglots");
