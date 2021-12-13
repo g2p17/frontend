@@ -12,6 +12,7 @@
 				v-on:loadSignUp="loadSignUp"
 				v-on:loadReservation="loadReservation"
 				v-on:loadAbout="loadAboutm"
+				v-on:loadQuotation="loadQuotationm"
 				/>
 			</el-header>
 			<el-main>		
@@ -93,8 +94,13 @@ export default {
 		loadReservation: function () {
 			this.$router.push({ name: "reservation" });
 		},
+
 		loadAboutm: function(){
 			this.$router.push ({name:"about"})
+		},
+
+		loadQuotationm: function(){
+			this.$router.push ({name:"quotation"})
 		},
 
 
