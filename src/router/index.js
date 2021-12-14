@@ -9,6 +9,7 @@ import About											from '../views/About.vue'
 import SignUp 											from '../views/SignUp.vue'
 import Quotation 										from '../views/Quotation.vue'
 import QuotationAuth 									from '../views/QuotationAuth.vue'
+import ConfirmReserve									from '../views/ConfirmReservation.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
 import Reservation										from '../views/Reservation.vue'
 import AdminUI											from '../views/AdminUI.vue'
@@ -66,6 +67,12 @@ const routes = [
 		path: '/user/reservation',
 		name: "reservation",
 		component: Reservation,
+		meta: { requiresAuth: true }
+	},
+	{
+		path: '/user/confirm-reservation',
+		name: "confirmReserve",
+		component: ConfirmReserve,
 		meta: { requiresAuth: true }
 	},
 	{

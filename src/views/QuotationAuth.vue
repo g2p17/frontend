@@ -90,7 +90,7 @@ export default {
                     "Car",
                     "Motorcycle",
                     "Bicycle",
-                    "Reduced mobility",
+                    "Disabled Parking",
                 ],
                 parkingLots: [],
                 quotation: {

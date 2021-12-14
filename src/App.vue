@@ -24,6 +24,7 @@
 					v-on:loadHomePublic="loadHomePublic"
 					v-on:loadSignUp="loadSignUp"
 					v-on:loadReservation="loadReservation"
+					v-on:loadConfirmReservation="loadConfirmReservation"
 				>
 				</router-view> 
 			</el-main>
@@ -104,7 +105,9 @@ export default {
 			this.$router.push ({ name: "quotationUser" })
 		},
 
-
+		loadConfirmReservation: function() {
+			this.$router.push ({ name: "confirmReserve" })
+		},
 
 		logOut: function () {
 			localStorage.clear();

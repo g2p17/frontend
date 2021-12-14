@@ -65,6 +65,7 @@ export default {
                     clientId        : '',
                     estimatedTime   : ref(1),
                     parkingLot      : '',
+                    price           : '',
                     entryTime       : {
                         newDate: '',
                         newHour: '',
@@ -83,14 +84,6 @@ export default {
     },
 
 	methods: {
-        processReserve: async function() {
-            console.log("detailQuote");
-            console.log(this.detailQuote);
-            console.log(this.userDetailById);
-
-            await this.$store.dispatch("createReserve", this.formModel.quotation);
-            this.$emit("loadHome");
-        },
         parseDate(inputDate) {
             return {
                 newDate: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[0],
@@ -98,8 +91,22 @@ export default {
             };
         },
         nextSteptwo () {
-            //this.$emit("loadSignUp");
+            this.detailQuote.vehiclePlate = this.formModel.quotation.vehiclePlate;
+            this.detailQuote.vehicleType = this.formModel.quotation.vehicleType;
+
+            const tempReserve = {
+                clientId: this.userDetailById.username,
+                estimatedTime: this.detailQuote.estimatedTime,
+                parkingLot: this.detailQuote.parkingLot,
+                entryTime: this.detailQuote.entryTime,
+                price: this.detailQuote.price,
+                vehiclePlate: this.formModel.quotation.vehiclePlate,
+                vehicleType: this.formModel.quotation.vehicleType,
+            }
+
+            this.$store.dispatch("updateDetailQuote", tempReserve);
             this.active = 2;
+            this.$emit("loadConfirmReservation");
         },
     },
     async mounted() {
@@ -109,6 +116,7 @@ export default {
             estimatedTime: this.detailQuote.estimatedTime,
             parkingLot: this.detailQuote.parkingLot,
             entryTime: this.detailQuote.entryTime,
+            price: this.detailQuote.price,
             vehiclePlate: '',
             vehicleType: '',            
         }
@@ -120,7 +128,7 @@ export default {
                                   Parking place: ${ tempReserve.parkingLot }\n
                                   día: ${ date.newDate }\n
                                   Hora: ${ date.newHour }\n
-                                  Precio: $${ this.detailQuote.price } COP\n`;
+                                  Precio: $${ tempReserve.price } COP\n`;
 
         this.formModel.quotation = tempReserve;
 
