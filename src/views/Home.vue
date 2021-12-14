@@ -1,6 +1,7 @@
 <template>
 	<body>
 		<table width="100%" align="center">
+			<el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
 			<tr>
 				<td>
 				<br />
@@ -19,24 +20,42 @@ import jwt_decode from "jwt-decode";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Home",
+	name: "Home",
 
-  data: function () {
-    return {
-      user: {
-        username: "",
-        name: "",
-        email: "",
-      },
-    };
-  },
-  computed: {
-    ...mapGetters(["userDetailById"]),
-  },
-  async beforeCreate() {
-    let userId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
-    await this.$store.dispatch("detailInfo", userId);
-  },
+	data: function () {
+		return {
+			user: {
+				username: "",
+				name: "",
+				email: "",
+			},
+			error: undefined,
+			showError: false,	  
+		};
+	},
+	computed: {
+		...mapGetters(["userDetailById", "err"]),
+	},
+
+	methods: {
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
+        },
+	},
+	async beforeCreate() {
+		let userId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
+		await this.$store.dispatch("detailInfo", userId);
+
+		if (this.err != null) {
+			this.error = this.err[0].body.detail;
+			this.delayedGreeting();
+		}
+	},
 };
 </script>
 

@@ -6,10 +6,12 @@ export const auth = {
 	state: {
 		userDetailById: null,
 		sessionInfo: undefined,
+		err: undefined,
 	},
 	getters: {
 		userDetailById: state => state.userDetailById,
 		sessionInfo: state => state.sessionInfo,
+		err: state => state.err,
 	},	
 	mutations: {
 		setDetailInfo(state, payload) {
@@ -17,7 +19,10 @@ export const auth = {
 		},
 		setSession(state, payload) {
 			state.sessionInfo = payload;
-		}
+		},
+		setError(state, payload) {
+			state.err = payload;
+		},
 	},
 	actions: {
 		async detailInfo({ commit }, userid) {
@@ -43,12 +48,16 @@ export const auth = {
 				console.info(response.data.userDetailById);
 				commit("setDetailInfo", response.data.userDetailById);
 			} catch (error) {
-				console.warn(userid + "   here  " + error.message);
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				commit("setError", err);
 			}			
 		},
 		async logInUser({ commit }, user) {
+
+			let response = null;
 			try {
-				const response = await graphqlClient.mutate({
+				response = await graphqlClient.mutate({
 					mutation: gql`
 						mutation LogIn($credentials: CredentialsInput!) {
 							logIn(credentials: $credentials) {
@@ -66,10 +75,13 @@ export const auth = {
                     tokenAccess  : response.data.logIn.access,
                     tokenRefresh : response.data.logIn.refresh,
                 }
-                console.log(sessionInfo);
+
+				console.log(sessionInfo);
 				commit("setSession", sessionInfo);
-			} catch (error) {
-				console.warn("   here  " + error.message);
+			} catch (error) {		
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				commit("setError", err);
 			}
 		},
 		async signUpUser({ commit }, user) {
@@ -96,7 +108,9 @@ export const auth = {
                 console.log(sessionInfo);
 				commit("setSession", sessionInfo);				
 			} catch (error) {
-				console.warn(error.message);
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				commit("setError", err);
 			}
 		},		
 	},

@@ -3,7 +3,7 @@
 
         <div>
             <el-form ref="form" :model="formModel"  size="medium">               
-                
+                <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
                 <el-steps :active="active" finish-status="success">
                     <el-step title="Step 1"></el-step>
                     <el-step title="Step 2"></el-step>
@@ -103,6 +103,8 @@ export default {
             },
             modalIsShow: false,
             active: 0,
+            error: undefined,
+            showError: false,
 		};
 	},
 
@@ -111,7 +113,7 @@ export default {
     },
 
     computed:{
-        ...mapGetters(["parkinglots", "detailQuote"]),
+        ...mapGetters(["parkinglots", "detailQuote", "err"]),
 
     },
 	methods: {
@@ -129,6 +131,12 @@ export default {
             }
             await this.$store.dispatch("searchParkingLot", quotation);
 
+            if (this.err != null) {
+                this.error = this.err[0].body.detail;
+                this.delayedGreeting();
+                return;
+            }
+            
             if (this.detailQuote != null) {
                 this.handleAddModal(true);
                 this.active = 1;
@@ -155,6 +163,14 @@ export default {
         returnSignUp () {
             this.$emit("loadReservation");
         },
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
+        },        
     },
     async mounted() {
         await this.$store.dispatch("getParkinglots");

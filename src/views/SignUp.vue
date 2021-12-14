@@ -1,6 +1,7 @@
 <template>
-	<div class="signUser">
+	<div class="signUser">		
 		<div class="containersignUser">
+			<el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
 			<el-form ref="form" :model="user" label-width="100px" size="medium">
 				<el-form-item label="User">
 					<el-input 
@@ -53,28 +54,51 @@
 </template>
 
 <script>
+import  { mapGetters }  from "vuex";
+
 export default {
-  name: "SignUp",
+	name: "SignUp",
 
-  data: function () {
-    return {
-      user: {
-        username: "",
-        identity_document: "",
-        phone_number: "",
-        password: "",
-        name: "",
-        email: "",
-      },    
-    };
-  },
+	data: function () {
+		return {
+			user: {
+				username: "",
+				identity_document: "",
+				phone_number: "",
+				password: "",
+				name: "",
+				email: "",
+			},
+            error: undefined,
+            showError: false,			    
+		};
+	},
 
-  methods: {
-    processSignUp: async function () {
-      await this.$store.dispatch("signUpUser", this.user);
-      this.$emit("completedSignUp");
-    },
-  },
+	computed: {
+		...mapGetters(["err"])
+	},
+
+	methods: {
+		processSignUp: async function () {
+			await this.$store.dispatch("signUpUser", this.user);
+
+			if (this.err != null) {
+                this.error = this.err[0].body.email[0];
+                this.delayedGreeting();
+                return;
+            }
+
+			this.$emit("completedSignUp");
+		},
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
+        },		
+	},
 };
 </script>
 
