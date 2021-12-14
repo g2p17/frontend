@@ -1,57 +1,55 @@
 <template>
-  <div class="signUpUser">
-    <div class="container2">
-        <el-form :model="formLabelAlign">
-            <el-form-item placeholder="User">
-                <el-input v-model="formLabelAlign.user"></el-input>
-            </el-form-item>
-            <el-form-item placeholder="User">
-                <el-input v-model="formLabelAlign.region"></el-input>
-            </el-form-item>
-            <el-form-item label="Activity form">
-                <el-input v-model="formLabelAlign.type"></el-input>
-            </el-form-item>
-      </el-form>
+	<div class="signUser">
+		<div class="containersignUser">
+			<el-form ref="form" :model="user" label-width="100px" size="medium">
+				<el-form-item label="User">
+					<el-input 
+					type="text"
+					v-model="user.username" 
+					placeholder="Your username"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="Password">
+					<el-input 
+					type="password"
+					v-model="user.password"
+					placeholder="Your more secret key"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="Name">
+					<el-input 
+					type="text" 
+					v-model="user.name" 
+					placeholder="Your name"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="Email">
+					<el-input 
+					type="email" 
+					v-model="user.email"
+					placeholder="Your principal email"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="ID">
+					<el-input 
+					type="text"
+					v-model="user.identity_document"
+					placeholder="ID"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="Mobile">
+					<el-input 
+					type="text"
+					v-model="user.phone_number"
+					placeholder="Your mobile number"
+					></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-button @click="processSignUp">Submit</el-button>
+				</el-form-item>
+			</el-form>
+		</div>
     </div>
-
-    <div class="container_signUp_user">
-      <h2>Registrarse</h2>
-
-      <form v-on:submit.prevent="processSignUp">
-        <input type="text" v-model="user.username" placeholder="Usuario" />
-        <br />
-
-        <input
-          type="password"
-          v-model="user.password"
-          placeholder="Contraseña"
-        />
-        <br />
-
-        <input type="text" v-model="user.name" placeholder="Nombre" />
-        <br />
-
-        <input type="email" v-model="user.email" placeholder="Correo" />
-        <br />
-
-        <input
-          type="text"
-          v-model="user.identity_document"
-          placeholder="Documento Identidad"
-        />
-        <br />
-
-        <input
-          type="text"
-          v-model="user.phone_number"
-          placeholder="Numero telefonico"
-        />
-        <br />
-
-        <button type="submit">Registrarse</button>
-      </form>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -67,12 +65,7 @@ export default {
         password: "",
         name: "",
         email: "",
-      },
-      formLabelAlign: {
-        user: '',
-        region: '',
-        type: '',
-      }    
+      },    
     };
   },
 
@@ -85,5 +78,36 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.signUser{
+    margin: 0;
+    padding: 0;
+    height: 660px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #141826;
+    background-image: url("../assets/BGD1.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.signUser button{
+    width: 50%;
+    height: 40px;
+    color: #E5E7E9;
+    background: #268c79;
+    border: 1px solid #E5E7E9;
+    padding: 10px 30px;
+}
+.signUser button:hover{
+    color: #141826;
+    background: #35f2bd; 
+}
+.containersignUser{
+    width: 40%;
+    padding: 3%;
+    background-color: #141826;
+    color: #e9f3f2;
+}
 </style>

@@ -2,7 +2,7 @@
     <div class="signUpUser">
 
         <div>
-            <el-form ref="form" :model="formModel"  size="medium">               
+            <el-form ref="form" :model="formModel"  size="large">               
 
                 <el-form-item>
                     <el-select
@@ -133,34 +133,23 @@ export default {
 
 <style scoped>
 
-  .signUpUser{
+    .signUpUser{
         margin: 0;
         padding: 0%;
-        height: 100%;
+        height: 660px;
         width: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content:center;
+        align-items: right;
         background-color: #141826;
 		background-image: url("../assets/Quotation.jpg");
 		background-repeat: no-repeat;
 		background-size: cover;
     }
-    .containerSignUpUser {
-        border: 3px solid #283747;
-        border-radius: 10px;
-        width: 25%;
-        height: 60%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .signUpUser h2{
-        color: #283747;
-    }
+  
     .signUpUser form{
         width: 70%;
+        padding-top: 30%;
     }
     .signUpUser input{
         height: 40px;
@@ -171,27 +160,24 @@ export default {
         border: 1px solid #283747;
     }
     .signUpUser button{
-        width: 100%;
+        width: 50%;
         height: 40px;
         color: #E5E7E9;
-        background: #283747;
+        background: #268c79;
         border: 1px solid #E5E7E9;
-        border-radius: 5px;
         padding: 10px 25px;
         margin: 5px 0 25px 0;
     }
     .signUpUser button:hover{
         color: #141826;
-        background: #268c79;
-        
+        background: #35f2bd; 
     }
     form{
-        
-        padding: 2% 5% 2% 15%;
+        padding-left: 75%;
         text-align: left;
-    }   
-    .formModel el-button:hover{
-		color: #141826;
-		background: #268c79;
-	}
+    }
+    .el-date-picker{
+        background: #35f2bd;
+    }
+  
 </style>

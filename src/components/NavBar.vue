@@ -9,10 +9,10 @@
 			>
 		</router-link>
 		<nav align="right">
-			<button v-if="isauth" v-on:click="loadHomem">HOME</button>
-			<button v-if="!isauth" v-on:click="loadLogInm">LOGIN</button>
-			<button v-if="!isauth" v-on:click="loadAboutm">ABOUT</button>			
-			<button v-if="!isauth" v-on:click="loadHomem">BENEFITS</button>
+			<button v-if="!isauth" v-on:click="loadHomem">HOME</button>
+			<button v-if="!isauth" v-on:click="loadAboutm">ABOUT</button>
+			<button v-if="!isauth" v-on:click="loadQuotationm">QUOTE</button>
+			<button v-if="!isauth" v-on:click="loadLogInm">LOGIN</button>			
 			<button v-if="!isauth" v-on:click="loadSignUpm">SIGN</button>
 			<button v-if="isauth" v-on:click="loadReservation">BOOK</button>
 			<button v-if="isauth" v-on:click="logOutm">LOGOUT</button>
@@ -44,6 +44,9 @@ export default {
 		},
 		loadAboutm() {
 			this.$emit("loadAbout")
+		},
+		loadQuotationm() {
+			this.$emit("loadQuotation")
 		},
 				
 	}

@@ -5,10 +5,12 @@ import gql 												from "graphql-tag";
 import Login 											from '../views/Login.vue'
 import Home 											from '../views/Home.vue'
 import HomePublic										from '../views/HomePublic.vue'
+import About											from '../views/About.vue'
 import SignUp 											from '../views/SignUp.vue'
 import Quotation 										from '../views/Quotation.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
 import Reservation										from '../views/Reservation.vue'
+import AdminUI											from '../views/AdminUI.vue'
 
 const routes = [
 	{
@@ -17,6 +19,12 @@ const routes = [
 		component: HomePublic,
 		meta: { requiresAuth: false }
 	},	
+	{
+		path: '/about',
+		name: "about",
+		component: About,
+		meta: { requiresAuth: false }
+	},
 	{
 		path: '/user/login',
 		name: "logIn",
@@ -51,6 +59,12 @@ const routes = [
 		path: '/reservation',
 		name: "reservation",
 		component: Reservation,
+		meta: { requiresAuth: true }
+	},
+	{
+		path: '/adminUI',
+		name: "adminUI",
+		component: AdminUI,
 		meta: { requiresAuth: true }
 	},
 ]
@@ -93,7 +107,7 @@ async function isAuth() {
 	} catch (error) {
 		console.log(error.message);
 		localStorage.clear();
-		alert("Su sesión expiró, por favor vuelva a iniciar sesión");
+		alert("Your session expire, please sign in again");
 		return false;
 	}
 }
