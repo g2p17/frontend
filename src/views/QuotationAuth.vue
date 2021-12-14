@@ -55,7 +55,7 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item >
-                    <el-input-number  v-model="formModel.quotation.estimatedTime" :min="30" :max="1380"
+                    <el-input-number  v-model="formModel.quotation.estimatedTime" :min="15" :max="1380"
                         placeholder="Estimated time in minutes"
                     ></el-input-number>
                 </el-form-item>

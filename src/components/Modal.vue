@@ -3,18 +3,22 @@
         <div class="modal__content">
             <AddForm class="form" aria-describedby="add form" @submit="handleSubmit">
             
+                <div><img 
+                    alt="ParkingWeb logo"  
+                    align="top" 
+                    src="../assets/modal.png" 
+                ></div>
                 <el-form
                 ref="productInfo" 
                 :model="quotation"
-                label-width="100px"
                 >
                     <el-form-item  label="">
                         {{ this.message }}
                     </el-form-item>              
 
                     <el-form-item>          
-                        <el-button type="primary" v-on:click="reserve">Reserve</el-button>
-                        <el-button type="danger" v-on:click="handleSubmit">Cancel</el-button>
+                        <el-button v-on:click="reserve">Reserve</el-button>
+                        <el-button v-on:click="handleSubmit">Cancel</el-button>
                     </el-form-item>
 
                 </el-form>
@@ -68,8 +72,8 @@ export default {
                 vehicleType: this.detailQuote.vehicleType,
             };
           
-            this.message = `Con nosotros el parking de tu vehiculo ${ quotationUp.vehicleType.toLowerCase() } en ${ quotationUp.parkingLot } 
-                        el día ${ quotationUp.entryTime.newDate } a las ${ quotationUp.entryTime.newHour } tendra un valor aproximado de $${ quotationUp.price } COP`;
+            this.message = `With us the parking of your ${ quotationUp.vehicleType.toLowerCase() } in ${ quotationUp.parkingLot } 
+                        the day ${ quotationUp.entryTime.newDate } at ${ quotationUp.entryTime.newHour } has a cost of $${ quotationUp.price } COP`;
 		} 
 	},    
 
@@ -115,11 +119,28 @@ export default {
 
     .form {
         display: flex;
-        justify-content: flex-start;
+        justify-content:center;
         align-items: center;
-        flex-direction: column;
-        padding: 15px 20px;
+        padding: 20px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 40px;
+        background-color: #141826;
+        color: #e9f3f2;
+        text-align: center;
     }
+    .form button{
+        width: 40%;
+        height: 40px;
+        color: #E5E7E9;
+        background: #268c79;
+        border: 1px solid #E5E7E9;
+        padding: 5px;
+    }
+    .form button:hover{
+        color: #141826;
+        background: #35f2bd; 
+    }
+
 
 </style>
 
