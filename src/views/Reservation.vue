@@ -1,54 +1,80 @@
 <template>
+
     <div class="reservation">
         <div class="containereserv">
-            <el-form
-            ref="form" 
-            label-width="100px" 
-            size="medium"
-            v-on:submit.prevent="processReserve"
-            ><el-form-item label="Vehicle Type">
-                    <el-input 
-                    type="text"
-                    v-model="aditionalInfoReserve.vehicleType" 
-                    placeholder="Vehicle type"
-                    ></el-input>
-                </el-form-item>    
-                <el-form-item label="Vehicle plate">
-                    <el-input 
-                    type="text" 
-                    v-model="aditionalInfoReserve.vehiclePlate" 
-                    placeholder="Vehicle plate"
-                    ></el-input>
+
+            <el-steps :active="active" finish-status="success">
+                <el-step title="Step 1"></el-step>
+                <el-step title="Step 2"></el-step>
+                <el-step title="Step 3"></el-step>
+            </el-steps>
+
+            <el-form ref="form" :model="formModel"  size="medium">
+
+                <el-form-item  label="">
+                    {{ this.formModel.message }}
                 </el-form-item>
-                <el-form-item>
-                    <el-button @click="processReserve">Submit</el-button>
+
+                <el-form-item lable="Vehicle type">
+                    <el-select
+                    v-model="formModel.quotation.vehicleType"
+                    placeholder="Your type vehicle type"
+                    size="medium"
+                    >
+                        <el-option 
+                        v-for="(vehicleType, ind) in formModel.vehicleTypes" :key="ind"
+                        :label="vehicleType" :value="vehicleType"
+                        ></el-option>
+                    </el-select>
                 </el-form-item>
+
+                <el-form-item lable="Vehicle plate">
+                    <el-input  v-model="formModel.quotation.vehiclePlate"
+                        placeholder="Your type vehicle Plate"
+                    clearable/>
+                </el-form-item>
+
+                <el-form-item size="large">
+                    <el-button type="primary" v-on:click="nextSteptwo">Reserve</el-button>
+                </el-form-item>
+    
             </el-form>
         </div>
-        <!--<h2>Reserve</h2>
-        <form v-on:submit.prevent="processReserve" >
-            <input type="text" v-model="aditionalInfoReserve.vehicleType" placeholder="Vehicle type">
-            <br>
-            <input type="text" v-model="aditionalInfoReserve.vehicleType" placeholder="Vehicle type">
-            <br>
-            <button type="submit">Reserve</button>
-        </form>-->
     </div>
+
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { ref } from 'vue'
 
 export default {
     name: "Reservation",
 
     data: function () {
         return {
-            aditionalInfoReserve: {
-                vehiclePlate    : "",
-                vehicleType     : "",
+            formModel: {                
+                vehicleTypes : [
+                    "Car",
+                    "Motorcycle",
+                    "Bicycle",
+                    "Disabled Parking",
+                ],
+                parkingLots: [],
+                quotation: {
+                    clientId        : '',
+                    estimatedTime   : ref(1),
+                    parkingLot      : '',
+                    entryTime       : {
+                        newDate: '',
+                        newHour: '',
+                    },
+                    vehiclePlate    : '',
+                    vehicleType     : '',
+                },
+                message: '',
             },
-
+            active: 0,
         };
     },
 
@@ -61,19 +87,45 @@ export default {
             console.log("detailQuote");
             console.log(this.detailQuote);
             console.log(this.userDetailById);
-            let reserve = {
-                vehiclePlate: this.aditionalInfoReserve.vehiclePlate,
-                vehicleType: this.aditionalInfoReserve.vehicleType,
-                clientId: this.userDetailById.username,
-                estimatedTime: this.detailQuote.estimatedTime,
-                parkingLot: this.detailQuote.parkingLot,
-                entryTime: this.detailQuote.entryTime,
-            }
 
-            await this.$store.dispatch("createReserve", reserve);
+            await this.$store.dispatch("createReserve", this.formModel.quotation);
             this.$emit("loadHome");
         },
-    }    
+        parseDate(inputDate) {
+            return {
+                newDate: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[0],
+                newHour: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[1],
+            };
+        },
+        nextSteptwo () {
+            //this.$emit("loadSignUp");
+            this.active = 2;
+        },
+    },
+    async mounted() {
+
+        const tempReserve = {
+            clientId: this.userDetailById.username,
+            estimatedTime: this.detailQuote.estimatedTime,
+            parkingLot: this.detailQuote.parkingLot,
+            entryTime: this.detailQuote.entryTime,
+            vehiclePlate: '',
+            vehicleType: '',            
+        }
+
+        let date = this.parseDate(tempReserve.entryTime);
+
+        this.formModel.message = `Reservación en progreso.\n\n
+                                  Hola ${ tempReserve.clientId }\n
+                                  Parking place: ${ tempReserve.parkingLot }\n
+                                  día: ${ date.newDate }\n
+                                  Hora: ${ date.newHour }\n
+                                  Precio: $${ this.detailQuote.price } COP\n`;
+
+        this.formModel.quotation = tempReserve;
+
+        this.active = 1;
+    },  
     
 
 }

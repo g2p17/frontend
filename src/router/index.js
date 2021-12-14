@@ -8,6 +8,7 @@ import HomePublic										from '../views/HomePublic.vue'
 import About											from '../views/About.vue'
 import SignUp 											from '../views/SignUp.vue'
 import Quotation 										from '../views/Quotation.vue'
+import QuotationAuth 									from '../views/QuotationAuth.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
 import Reservation										from '../views/Reservation.vue'
 import AdminUI											from '../views/AdminUI.vue'
@@ -50,13 +51,19 @@ const routes = [
 		meta: { requiresAuth: false }
 	},
 	{
+		path: '/user/quotation',
+		name: "quotationUser",
+		component: QuotationAuth,
+		meta: { requiresAuth: true }
+	},	
+	{
 		path: '/check-available',
 		name: "checkAvailable",
 		component: CheckAvailable,
 		meta: { requiresAuth: false }
 	},
 	{
-		path: '/reservation',
+		path: '/user/reservation',
 		name: "reservation",
 		component: Reservation,
 		meta: { requiresAuth: true }

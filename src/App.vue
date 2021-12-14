@@ -23,6 +23,7 @@
 					v-on:completedQuotation="completedQuotation"
 					v-on:loadHomePublic="loadHomePublic"
 					v-on:loadSignUp="loadSignUp"
+					v-on:loadReservation="loadReservation"
 				>
 				</router-view> 
 			</el-main>
@@ -100,7 +101,7 @@ export default {
 		},
 
 		loadQuotationm: function(){
-			this.$router.push ({name:"quotation"})
+			this.$router.push ({ name: "quotationUser" })
 		},
 
 
