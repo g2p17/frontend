@@ -51,7 +51,9 @@ export const reservation = {
 				console.info(detailQuote);
 				commit("setDetailQuote", detailQuote);
 			} catch (error) {
-				console.warn("   here  " + error.message);
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				commit("setError", err);
 			}
 		},
 		async createReserve({ commit }, reserve) {
@@ -73,7 +75,9 @@ export const reservation = {
                 console.log(response.data.registerReservation);
 				commit("setReserve", response.data.registerReservation);
 			} catch (error) {
-				console.warn("   here  " + error.message);
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				commit("setError", err);
 			}			
 		},
 		updateDetailQuote({ commit }, detailQuote) {

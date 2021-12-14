@@ -1,8 +1,8 @@
 <template>
     
     <div class="reservation">
+        <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>        
         <div class="containereserv">
-
             <el-steps :active="active" finish-status="success">
                 <el-step title="confirm"></el-step>
                 <el-step title="Step 2"></el-step>
@@ -46,11 +46,13 @@ export default {
                 message: '',
             },
             active: 0,
+            error: undefined,
+            showError: false,            
         };
     },
 
     computed: {
-        ...mapGetters(["detailQuote", "userDetailById"]),
+        ...mapGetters(["detailQuote", "userDetailById", "err"]),
     },
 
     methods: {
@@ -68,9 +70,24 @@ export default {
             }
 
             await this.$store.dispatch("createReserve", reservationInput);
+
+            if (this.err != null) {
+                this.error = this.err[0].body.detail;
+                this.delayedGreeting();
+                return;
+            }            
+
             this.active = 3;
             //this.$emit("loadHome");
         },
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
+        },        
         parseDate(inputDate) {
             return {
                 newDate: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[0],
