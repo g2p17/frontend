@@ -7,7 +7,6 @@
 		integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 		crossorigin="anonymous"
 		/>
-		<h2>®MisionTic 2021 - C4P17G2 Course</h2>
 	</head>
 	<footer class="footer">
 		<nav>
@@ -82,6 +81,7 @@
 				</li>
 			</ul>
 		</nav>
+		<h2>®MisionTic 2021 - C4P17G2 Course</h2>
 	</footer>
 </div>
 </template>
@@ -99,6 +99,8 @@ export default {
 <style scoped>
 h2 {
   margin: 20px 0 0;
+  background: #268c79;
+  color: #e9f3f2;
 }
 ul {
   list-style-type: none;
@@ -106,7 +108,7 @@ ul {
 }
 li {
   display: inline-flex;
-  padding: 3%;
+  padding: 5%;
   margin: 0 5px;
   align-content: center;
   text-align: left;

@@ -1,26 +1,38 @@
 <template>
-    <div class="signUpUser">
-
-
-
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="containerSignUpUser">
-            <h2>Reserve</h2>
-
-            <form v-on:submit.prevent="processReserve" >
-                <input type="text" v-model="aditionalInfoReserve.vehicleType" placeholder="Vehicle type">
-                <br>
-                <input type="text" v-model="aditionalInfoReserve.vehiclePlate" placeholder="Vehicle Plate">
-                <br>
-                <button type="submit">Reserve</button>
-            </form>
-
+    <div class="reservation">
+        <div class="containereserv">
+            <el-form
+            ref="form" 
+            label-width="100px" 
+            size="medium"
+            v-on:submit.prevent="processReserve"
+            ><el-form-item label="Vehicle Type">
+                    <el-input 
+                    type="text"
+                    v-model="aditionalInfoReserve.vehicleType" 
+                    placeholder="Vehicle type"
+                    ></el-input>
+                </el-form-item>    
+                <el-form-item label="Vehicle plate">
+                    <el-input 
+                    type="text" 
+                    v-model="aditionalInfoReserve.vehiclePlate" 
+                    placeholder="Vehicle plate"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="processReserve">Submit</el-button>
+                </el-form-item>
+            </el-form>
         </div>
+        <!--<h2>Reserve</h2>
+        <form v-on:submit.prevent="processReserve" >
+            <input type="text" v-model="aditionalInfoReserve.vehicleType" placeholder="Vehicle type">
+            <br>
+            <input type="text" v-model="aditionalInfoReserve.vehicleType" placeholder="Vehicle type">
+            <br>
+            <button type="submit">Reserve</button>
+        </form>-->
     </div>
 </template>
 
@@ -68,53 +80,35 @@ export default {
 </script>
 
 <style scoped>
-
-    .signUpUser{
-        margin: 0;
-        padding: 0%;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .containerSignUpUser {
-        border: 3px solid #283747;
-        border-radius: 10px;
-        width: 25%;
-        height: 60%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .signUpUser h2{
-        color: #283747;
-    }
-    .signUpUser form{
-        width: 70%;
-    }
-    .signUpUser input{
-        height: 40px;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px 20px;
-        margin: 5px 0;
-        border: 1px solid #283747;
-    }
-    .signUpUser button{
-        width: 100%;
-        height: 40px;
-        color: #E5E7E9;
-        background: #283747;
-        border: 1px solid #E5E7E9;
-        border-radius: 5px;
-        padding: 10px 25px;
-        margin: 5px 0 25px 0;
-    }
-    .signUpUser button:hover{
-        color: #E5E7E9;
-        background: crimson;
-        border: 1px solid #283747;
-    }
+.reservation{
+    margin: 0;
+    padding: 0;
+    height: 660px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:  #268c79;
+    background-image: url("../assets/BGD2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.reservation button{
+    width: 50%;
+    height: 40px;
+    color: #E5E7E9;
+    background: #141826;
+    border: 1px solid #E5E7E9;
+    padding: 10px 30px;
+}
+.reservation button:hover{
+    color: #141826;
+    background: #35f2bd; 
+}
+.containereserv{
+    width: 40%;
+    padding: 3%;
+    background-color: #141826;
+    color: #e9f3f2;
+}
 </style>
