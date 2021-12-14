@@ -43,7 +43,9 @@ export const parking = {
 				console.info(response.data.parkings);
 				commit("setParkinglots", response.data.parkings);
 			} catch (error) {
-				console.warn("   here  " + error.message);
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				commit("setError", err);
 			}
 		},
         // eslint-disable-next-line no-unused-vars

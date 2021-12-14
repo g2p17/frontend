@@ -1,6 +1,7 @@
 <template>
     <div class="loginUser">
         <div class="containerLogin">
+            <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
             <el-form
             ref="form" 
             label-width="100px" 
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import  { mapGetters }  from "vuex";
 
 export default {
     name: "LogIn",
@@ -39,13 +41,34 @@ export default {
                 username : "",
                 password : ""
             },
+            error: undefined,
+            showError: false,
         }
+    },
+
+    computed: {
+        ...mapGetters(["err"])
     },
 
     methods: {
         processLogInUser: async function(){
             await this.$store.dispatch("logInUser", this.user);
+            
+            if (this.err != null) {
+                this.error = this.err[0].body.detail;
+                this.delayedGreeting();
+                return;
+            }
+            
             this.$emit('completedLogIn');
+        },
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
         },
         onSubmit() {
             console.log('submit!')
