@@ -2,7 +2,13 @@
     <div class="signUpUser">
 
         <div>
-            <el-form ref="form" :model="formModel"  size="large">               
+            <el-form ref="form" :model="formModel"  size="medium">               
+                
+                <el-steps :active="active" finish-status="success">
+                    <el-step title="Step 1"></el-step>
+                    <el-step title="Step 2"></el-step>
+                    <el-step title="Step 3"></el-step>
+                </el-steps>
 
                 <el-form-item>
                     <el-select
@@ -96,6 +102,7 @@ export default {
                 },
             },
             modalIsShow: false,
+            active: 0,
 		};
 	},
 
@@ -122,8 +129,11 @@ export default {
             }
             await this.$store.dispatch("searchParkingLot", quotation);
 
-            if (this.detailQuote != null)                
+            if (this.detailQuote != null) {
                 this.handleAddModal(true);
+                this.active = 1;
+            }               
+                
         },
         parseDate(inputDate, inputHour) {
             //console.log(inputDate.split(' ')[2] + " " + inputDate.split(' ')[1] + " " + inputDate.split(' ')[3]);
@@ -143,8 +153,8 @@ export default {
             this.$emit("loadHomePublic");
         },      
         returnSignUp () {
-            this.$emit("loadSignUp");
-        }
+            this.$emit("loadReservation");
+        },
     },
     async mounted() {
         await this.$store.dispatch("getParkinglots");
@@ -155,23 +165,34 @@ export default {
 
 <style scoped>
 
-    .signUpUser{
+  .signUpUser{
         margin: 0;
         padding: 0%;
-        height: 660px;
+        height: 100%;
         width: 100%;
         display: flex;
-        justify-content:center;
-        align-items: right;
+        justify-content: center;
+        align-items: center;
         background-color: #141826;
 		background-image: url("../assets/Quotation.jpg");
 		background-repeat: no-repeat;
 		background-size: cover;
     }
-  
+    .containerSignUpUser {
+        border: 3px solid #283747;
+        border-radius: 10px;
+        width: 25%;
+        height: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .signUpUser h2{
+        color: #283747;
+    }
     .signUpUser form{
         width: 70%;
-        padding-top: 30%;
     }
     .signUpUser input{
         height: 40px;
@@ -182,24 +203,27 @@ export default {
         border: 1px solid #283747;
     }
     .signUpUser button{
-        width: 50%;
+        width: 100%;
         height: 40px;
         color: #E5E7E9;
-        background: #268c79;
+        background: #283747;
         border: 1px solid #E5E7E9;
+        border-radius: 5px;
         padding: 10px 25px;
         margin: 5px 0 25px 0;
     }
     .signUpUser button:hover{
         color: #141826;
-        background: #35f2bd; 
+        background: #268c79;
+        
     }
     form{
-        padding-left: 75%;
+        
+        padding: 2% 5% 2% 15%;
         text-align: left;
-    }
-    .el-date-picker{
-        background: #35f2bd;
-    }
-  
+    }   
+    .formModel el-button:hover{
+		color: #141826;
+		background: #268c79;
+	}
 </style>

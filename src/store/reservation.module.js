@@ -76,6 +76,9 @@ export const reservation = {
 				console.warn("   here  " + error.message);
 			}			
 		},
+		updateDetailQuote({ commit }, detailQuote) {
+			commit("setDetailQuote", detailQuote);
+		},
 	
 	},
 	modules: {
