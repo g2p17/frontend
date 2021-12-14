@@ -17,6 +17,7 @@
 			</el-header>
 			<el-main>		
 				<router-view
+					v-on:loadLogIn="loadLogIn"
 					v-on:completedLogIn="completedLogIn"
 					v-on:completedSignUp="completedSignUp"
 					v-on:logOut="logOut"

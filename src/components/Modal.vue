@@ -5,7 +5,7 @@
             
                 <div><img 
                     alt="ParkingWeb logo"  
-                    align="top" 
+                    align="center" 
                     src="../assets/modal.png" 
                 ></div>
                 <el-form
@@ -139,6 +139,9 @@ export default {
     .form button:hover{
         color: #141826;
         background: #35f2bd; 
+    }
+    img{
+        padding: 3px;
     }
 
 

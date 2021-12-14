@@ -62,7 +62,7 @@
                 <Modal
                 :modalIsShow="modalIsShow"
                 v-on:close_modal="handleAddModal"
-                v-on:reserve="returnSignUp"
+                v-on:reserve="returnLogin"
                 />  
             </el-form>
         </div>
@@ -142,8 +142,8 @@ export default {
         returnHome () {
             this.$emit("loadHomePublic");
         },      
-        returnSignUp () {
-            this.$emit("loadSignUp");
+        returnLogin () {
+            this.$emit("loadLogIn");
         }
     },
     async mounted() {
