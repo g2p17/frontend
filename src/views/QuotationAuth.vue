@@ -201,6 +201,9 @@ export default {
 				estimatedTime : this.detailQuoteState.estimatedTime,
             }
 
+            if (quotation.estimatedTime == undefined)
+                quotation.estimatedTime = 15
+
             console.log(quotation);
             
             this.formModel.quotation = quotation;
