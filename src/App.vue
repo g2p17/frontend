@@ -26,6 +26,7 @@
 					v-on:loadSignUp="loadSignUp"
 					v-on:loadReservation="loadReservation"
 					v-on:loadConfirmReservation="loadConfirmReservation"
+					v-on:loadQuotationm="loadQuotationm"
 				>
 				</router-view> 
 			</el-main>
@@ -112,6 +113,8 @@ export default {
 
 		logOut: function () {
 			localStorage.clear();
+			this.$store.dispatch("updateDetailQuote", undefined);
+			//this.$store.replaceState({});
 			alert("Closed session");
 			this.loadLogIn();
 		},		

@@ -35,7 +35,8 @@
                 </el-form-item>
 
                 <el-form-item size="large">
-                    <el-button type="primary" v-on:click="nextSteptwo">Reserve</el-button>
+                    <el-button type="primary" v-on:click="prevStepone">Previous</el-button>
+                    <el-button type="primary" v-on:click="nextSteptwo">Next</el-button>
                 </el-form-item>
     
             </el-form>
@@ -80,7 +81,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["detailQuote", "userDetailById"]),
+        ...mapGetters(["detailQuote", "detailQuote", "detailQuoteState" ,"userDetailById"]),
     },
 
 	methods: {
@@ -91,34 +92,42 @@ export default {
             };
         },
         nextSteptwo () {
+            /*
             this.detailQuote.vehiclePlate = this.formModel.quotation.vehiclePlate;
             this.detailQuote.vehicleType = this.formModel.quotation.vehicleType;
+            */
 
             const tempReserve = {
                 clientId: this.userDetailById.username,
-                estimatedTime: this.detailQuote.estimatedTime,
-                parkingLot: this.detailQuote.parkingLot,
-                entryTime: this.detailQuote.entryTime,
+                estimatedTime: this.detailQuoteState.estimatedTime,
+                parkingLot: this.detailQuoteState.parkingLot,
+                entryTime: this.detailQuoteState.entryTime,
                 price: this.detailQuote.price,
+                date1: this.detailQuoteState.date1,
+                date2: this.detailQuoteState.date2, 
                 vehiclePlate: this.formModel.quotation.vehiclePlate,
                 vehicleType: this.formModel.quotation.vehicleType,
             }
 
-            this.$store.dispatch("updateDetailQuote", tempReserve);
+            this.$store.dispatch("updateDetailQuoteState", tempReserve);
             this.active = 2;
             this.$emit("loadConfirmReservation");
+        },
+        prevStepone () {
+            this.active = 1;
+            this.$emit("loadQuotationm");
         },
     },
     async mounted() {
 
         const tempReserve = {
             clientId: this.userDetailById.username,
-            estimatedTime: this.detailQuote.estimatedTime,
-            parkingLot: this.detailQuote.parkingLot,
-            entryTime: this.detailQuote.entryTime,
+            estimatedTime: this.detailQuoteState.estimatedTime,
+            parkingLot: this.detailQuoteState.parkingLot,
+            entryTime: this.detailQuoteState.entryTime,
             price: this.detailQuote.price,
-            vehiclePlate: '',
-            vehicleType: '',            
+            vehiclePlate: this.detailQuoteState.vehiclePlate,
+            vehicleType: this.detailQuoteState.vehicleType,            
         }
 
         let date = this.parseDate(tempReserve.entryTime);

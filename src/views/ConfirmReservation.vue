@@ -1,7 +1,8 @@
 <template>
     
     <div class="reservation">
-        <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>        
+        <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
+        <el-alert v-if="showMessage" :title="message" type="success" show-icon> </el-alert>
         <div class="containereserv">
             <el-steps :active="active" finish-status="success">
                 <el-step title="confirm"></el-step>
@@ -16,7 +17,9 @@
                 </el-form-item>
 
                 <el-form-item size="large">
-                    <el-button type="primary" v-on:click="processReserve">Reserve</el-button>
+                    <el-button v-if="pending" type="primary" v-on:click="processReserve">Reserve</el-button>
+                    <el-button v-if="pending" type="primary" v-on:click="prevStepone">Previous</el-button>
+                    <el-button v-if="!pending" type="primary" v-on:click="returnHome">Home</el-button>
                 </el-form-item>
     
             </el-form>
@@ -47,12 +50,15 @@ export default {
             },
             active: 0,
             error: undefined,
-            showError: false,            
+            message: '',
+            showError: false,           
+            showMessage: false,
+            pending: true,
         };
     },
 
     computed: {
-        ...mapGetters(["detailQuote", "userDetailById", "err"]),
+        ...mapGetters(["detailQuote","detailQuoteState", "userDetailById", "err", "reserve"]),
     },
 
     methods: {
@@ -62,11 +68,11 @@ export default {
 
             const reservationInput = {
                 clientId: this.userDetailById.username,
-                parkingLot: this.detailQuote.parkingLot,
-                vehicleType: this.detailQuote.vehicleType,
-                entryTime: this.detailQuote.entryTime,
-                estimatedTime: this.detailQuote.estimatedTime,
-                vehiclePlate: this.detailQuote.vehicleType,
+                parkingLot: this.detailQuoteState.parkingLot,
+                vehicleType: this.detailQuoteState.vehicleType,
+                entryTime: this.detailQuoteState.entryTime,
+                estimatedTime: this.detailQuoteState.estimatedTime,
+                vehiclePlate: this.detailQuoteState.vehicleType,
             }
 
             await this.$store.dispatch("createReserve", reservationInput);
@@ -75,11 +81,21 @@ export default {
                 this.error = this.err[0].body.detail;
                 this.delayedGreeting();
                 return;
-            }            
+            }
 
             this.active = 3;
+            this.message = this.reserve.reservation;
+            this.delayedGreetingSuccess();
+            this.pending = false;
             //this.$emit("loadHome");
         },
+        prevStepone () {
+            this.active = 2;
+            this.$emit("loadReservation");
+        },
+        returnHome () {
+            this.$emit("loadHomePublic");
+        }, 
         mysleep: function (ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         },
@@ -87,7 +103,12 @@ export default {
             this.showError = true;
             await this.mysleep(4000);
             this.showError = false;
-        },        
+        },
+        delayedGreetingSuccess: async function () {
+            this.showMessage = true;
+            await this.mysleep(4000);
+            this.showMessage = false;
+        },      
         parseDate(inputDate) {
             return {
                 newDate: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[0],
@@ -97,16 +118,16 @@ export default {
     },
 
     async mounted() {
-        let date = this.parseDate(this.detailQuote.entryTime);
+        let date = this.parseDate(this.detailQuoteState.entryTime);
 
         this.formModel.message = `Reservación en progreso.\n\n
-                                  Hola ${ this.detailQuote.clientId }\n
-                                  Parking place: ${ this.detailQuote.parkingLot }\n
-                                  Vehicle type: ${ this.detailQuote.vehicleType }\n
-                                  Vehicle plate: ${ this.detailQuote.vehiclePlate }\n
+                                  Hola ${ this.detailQuoteState.clientId }\n
+                                  Parking place: ${ this.detailQuoteState.parkingLot }\n
+                                  Vehicle type: ${ this.detailQuoteState.vehicleType }\n
+                                  Vehicle plate: ${ this.detailQuoteState.vehiclePlate }\n
                                   día: ${ date.newDate }\n
                                   Hora: ${ date.newHour }\n
-                                  Precio: $${ this.detailQuote.price } COP\n`;
+                                  Precio: $${ this.detailQuoteState.price } COP\n`;
 
         this.active = 1;
         this.active = 2;
