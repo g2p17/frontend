@@ -22,8 +22,10 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="processLogInUser">Submit</el-button>
+                    <el-button @click="processLogInUser">LOGIN</el-button>
+                    <p><router-link to="/user/signUp"> Or create an account</router-link></p>
                 </el-form-item>
+                
             </el-form>
         </div>
     </div>
@@ -97,7 +99,7 @@ export default {
     color: #E5E7E9;
     background: #268c79;
     border: 1px solid #E5E7E9;
-    padding: 10px 30px;
+    padding: 3px;
 }
 .loginUser button:hover{
     color: #141826;
@@ -108,5 +110,11 @@ export default {
     padding: 3%;
     background-color: #141826;
     color: #e9f3f2;
+}
+loginUser button p{
+    width: 50%;
+    height: 10%;
+    font-size: 12px;
+    color: aliceblue;
 }
 </style>
