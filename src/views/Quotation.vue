@@ -49,7 +49,7 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item >
-                    <el-input-number  v-model="formModel.quotation.estimatedTime" :min="30" :max="1380"
+                    <el-input-number  v-model="formModel.quotation.estimatedTime" :min="15" :max="1380"
                         placeholder="Estimated time in minutes"
                     ></el-input-number>
                 </el-form-item>
@@ -62,7 +62,7 @@
                 <Modal
                 :modalIsShow="modalIsShow"
                 v-on:close_modal="handleAddModal"
-                v-on:reserve="returnSignUp"
+                v-on:reserve="returnLogin"
                 />  
             </el-form>
         </div>
@@ -165,8 +165,8 @@ export default {
         returnHome () {
             this.$emit("loadHomePublic");
         },      
-        returnSignUp () {
-            this.$emit("loadSignUp");
+        returnLogin () {
+            this.$emit("loadLogIn");
         }
     },
     async mounted() {
@@ -205,13 +205,12 @@ export default {
         border: 1px solid #283747;
     }
     .signUpUser button{
-        width: 50%;
+        width: 40%;
         height: 40px;
         color: #E5E7E9;
         background: #268c79;
         border: 1px solid #E5E7E9;
-        padding: 10px 25px;
-        margin: 5px 0 25px 0;
+        padding: 5px;
     }
     .signUpUser button:hover{
         color: #141826;
