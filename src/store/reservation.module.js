@@ -5,23 +5,28 @@ import graphqlClient from '../main';
 export const reservation = {
 	state: {
 		detailQuote: null,
+		detailQuoteState: null,
 		reserve: null,
 	},
 	getters: {
 		detailQuote: state => state.detailQuote,
+		detailQuoteState: state => state.detailQuoteState,
 		reserve: state => state.reserve,
 	},	
 	mutations: {
 		setDetailQuote(state, payload) {
 			state.detailQuote = payload;
 		},
+		setDetailQuoteState(state, payload) {
+			state.detailQuoteState = payload;
+		},		
 		setReserve(state, payload) {
 			state.reserve = payload;
 		}
 	},
 	actions: {
 		async searchParkingLot({ commit }, quote) {
-			console.log(quote);
+
 			try {
 				const response = await graphqlClient.query({
 					query: gql`
@@ -57,7 +62,7 @@ export const reservation = {
 			}
 		},
 		async createReserve({ commit }, reserve) {
-			console.log("create reservation")
+
 			console.info(reserve);
 			try {
 				const response = await graphqlClient.mutate({
@@ -83,6 +88,9 @@ export const reservation = {
 		updateDetailQuote({ commit }, detailQuote) {
 			commit("setDetailQuote", detailQuote);
 		},
+		updateDetailQuoteState({ commit }, detailQuote) {
+			commit("setDetailQuoteState", detailQuote);
+		},		
 	
 	},
 	modules: {

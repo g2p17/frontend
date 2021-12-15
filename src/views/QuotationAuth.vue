@@ -112,8 +112,8 @@ export default {
         Modal,
     },
 
-    computed:{
-        ...mapGetters(["parkinglots", "detailQuote", "err"]),
+    computed: {
+        ...mapGetters(["parkinglots", "detailQuote", "err", "detailQuoteState"]),
 
     },
 	methods: {
@@ -123,16 +123,31 @@ export default {
 
             let isoDate = this.parseDate(dateformat, hourformat);
 
+            const quotationState = {
+                parkingLot : this.formModel.quotation.parkingPlace,
+				vehicleType : this.formModel.quotation.vehicleType,
+				entryTime : isoDate,
+                date1: this.formModel.quotation.date1,
+                date2: this.formModel.quotation.date2,
+				estimatedTime : this.formModel.quotation.estimatedTime,
+            }
+
+            this.$store.dispatch("updateDetailQuoteState", quotationState);
+
+            console.log(this.detailQuoteState);
+
             const quotation = {
                 parkingLot : this.formModel.quotation.parkingPlace,
 				vehicleType : this.formModel.quotation.vehicleType,
 				entryTime : isoDate,
 				estimatedTime : this.formModel.quotation.estimatedTime,
             }
+
             await this.$store.dispatch("searchParkingLot", quotation);
 
             if (this.err != null) {
-                this.error = this.err[0].body.detail;
+                //this.error = this.err[0].body.detail;
+                this.error = this.err[0];
                 this.delayedGreeting();
                 return;
             }
@@ -170,11 +185,26 @@ export default {
             this.showError = true;
             await this.mysleep(4000);
             this.showError = false;
-        },        
+        },     
     },
     async mounted() {
         await this.$store.dispatch("getParkinglots");
         this.formModel.parkingLots = this.parkinglots;
+
+        if (this.detailQuoteState != null) {
+           
+            const quotation = {
+                parkingPlace : this.detailQuoteState.parkingLot,
+				vehicleType : this.detailQuoteState.vehicleType,
+                date1: this.detailQuoteState.date1,
+                date2: this.detailQuoteState.date2,                
+				estimatedTime : this.detailQuoteState.estimatedTime,
+            }
+
+            console.log(quotation);
+            
+            this.formModel.quotation = quotation;
+        }
     },
 };
 </script>

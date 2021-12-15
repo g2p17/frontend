@@ -3,7 +3,7 @@
 
         <div>
             <el-form ref="form" :model="formModel"  size="large">               
-
+                <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
                 <el-form-item>
                     <el-select
                     v-model="formModel.quotation.parkingPlace"                    
@@ -96,6 +96,8 @@ export default {
                 },
             },
             modalIsShow: false,
+            error: undefined,
+            showError: false,     
 		};
 	},
 
@@ -104,7 +106,7 @@ export default {
     },
 
     computed:{
-        ...mapGetters(["parkinglots", "detailQuote"]),
+        ...mapGetters(["parkinglots", "detailQuoteState", "detailQuote"]),
 
     },
 	methods: {
@@ -114,13 +116,34 @@ export default {
 
             let isoDate = this.parseDate(dateformat, hourformat);
 
+            const quotationState = {
+                parkingLot : this.formModel.quotation.parkingPlace,
+				vehicleType : this.formModel.quotation.vehicleType,
+				entryTime : isoDate,
+                date1: this.formModel.quotation.date1,
+                date2: this.formModel.quotation.date2,
+				estimatedTime : this.formModel.quotation.estimatedTime,
+            }
+
+            this.$store.dispatch("updateDetailQuoteState", quotationState);
+
+            console.log(this.detailQuoteState);
+
             const quotation = {
                 parkingLot : this.formModel.quotation.parkingPlace,
 				vehicleType : this.formModel.quotation.vehicleType,
 				entryTime : isoDate,
 				estimatedTime : this.formModel.quotation.estimatedTime,
             }
+
             await this.$store.dispatch("searchParkingLot", quotation);
+
+            if (this.err != null) {
+                //this.error = this.err[0].body.detail;
+                this.error = this.err[0];
+                this.delayedGreeting();
+                return;
+            }
 
             if (this.detailQuote != null)                
                 this.handleAddModal(true);
