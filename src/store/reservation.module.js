@@ -93,8 +93,7 @@ export const reservation = {
 		},
 		resetState({ commit }, detailQuote) {
 			commit("setDetailQuoteState", detailQuote);
-		}
-	
+		},	
 	},
 	modules: {
 	}

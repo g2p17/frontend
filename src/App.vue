@@ -115,7 +115,8 @@ export default {
 			localStorage.clear();
 			//this.$store.dispatch("updateDetailQuote", undefined);
 			this.$store.dispatch("updateDetailQuote", '');
-            this.$store.dispatch("updateDetailQuoteState", '');
+      this.$store.dispatch("updateDetailQuoteState", '');
+
 			//this.$store.replaceState({});
 			alert("Closed session");
 			this.loadLogIn();
