@@ -147,7 +147,7 @@ export default {
 
             if (this.err != null) {
                 //this.error = this.err[0].body.detail;
-                this.error = this.err[0];
+                this.error = this.err[0].body;
                 this.delayedGreeting();
                 return;
             }
