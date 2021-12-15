@@ -58,27 +58,30 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["detailQuote"]),
+        ...mapGetters(["detailQuote", "detailQuoteState"]),
     },   
     
 	watch: {
         modalIsShow: function() {
             const quotationUp = {
-                entryTime: this.parseDate(this.detailQuote.entryTime),
-                estimatedTime: this.detailQuote.estimatedTime,
-                parkingLot: this.detailQuote.parkingLot,
+                entryTime: this.parseDate(this.detailQuoteState.entryTime),
+                estimatedTime: this.detailQuoteState.estimatedTime,
+                parkingLot: this.detailQuoteState.parkingLot,
                 price: this.detailQuote.price,
                 state: this.detailQuote.state,
-                vehicleType: this.detailQuote.vehicleType,
+                vehicleType: this.detailQuoteState.vehicleType,
             };
           
-            this.message = `With us the parking of your ${ quotationUp.vehicleType.toLowerCase() } in ${ quotationUp.parkingLot } 
+            if (this.detailQuoteState != '')
+                this.message = `With us the parking of your ${ quotationUp.vehicleType.toLowerCase() } in ${ quotationUp.parkingLot } 
                         the day ${ quotationUp.entryTime.newDate } at ${ quotationUp.entryTime.newHour } has a cost of $${ quotationUp.price } COP`;
 		} 
 	},    
 
     methods: {
         handleSubmit() {
+            this.$store.dispatch("updateDetailQuote", '');
+            this.$store.dispatch("updateDetailQuoteState", '');
             this.$emit("close_modal", false);
         },
         

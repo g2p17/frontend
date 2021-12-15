@@ -90,7 +90,10 @@ export const reservation = {
 		},
 		updateDetailQuoteState({ commit }, detailQuote) {
 			commit("setDetailQuoteState", detailQuote);
-		},		
+		},
+		resetState({ commit }, detailQuote) {
+			commit("setDetailQuoteState", detailQuote);
+		}
 	
 	},
 	modules: {
