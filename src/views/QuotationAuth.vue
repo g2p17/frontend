@@ -5,9 +5,9 @@
             <el-form ref="form" :model="formModel"  size="medium">               
                 <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
                 <el-steps :active="active" finish-status="success">
-                    <el-step title="Step 1"></el-step>
-                    <el-step title="Step 2"></el-step>
-                    <el-step title="Step 3"></el-step>
+                    <el-step title="Confirm data"></el-step>
+                    <el-step title="Add your plate"></el-step>
+                    <el-step title="Reservation"></el-step>
                 </el-steps>
 
                 <el-form-item>
@@ -61,8 +61,8 @@
                 </el-form-item>
 
                 <el-form-item size="large">
-                    <el-button type="primary" v-on:click="processQuote">Consult</el-button>
                     <el-button type="danger" v-on:click="returnHome">Cancel</el-button>
+                    <el-button type="primary" v-on:click="processQuote">Confirm</el-button>
                 </el-form-item>
 
                 <Modal
@@ -147,7 +147,7 @@ export default {
 
             if (this.err != null) {
                 //this.error = this.err[0].body.detail;
-                this.error = this.err[0];
+                this.error = this.err[0].body;
                 this.delayedGreeting();
                 return;
             }
@@ -214,22 +214,21 @@ export default {
 
 <style scoped>
 
-  .signUpUser{
+    .signUpUser{
         margin: 0;
         padding: 0%;
-        height: 100%;
+        height: 660px;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: #141826;
-		background-image: url("../assets/Quotation.jpg");
+		background-image: url("../assets/BGD2.jpg");
 		background-repeat: no-repeat;
 		background-size: cover;
     }
     .containerSignUpUser {
         border: 3px solid #283747;
-        border-radius: 10px;
         width: 25%;
         height: 60%;
         display: flex;
@@ -237,11 +236,10 @@ export default {
         justify-content: center;
         align-items: center;
     }
-    .signUpUser h2{
-        color: #283747;
-    }
     .signUpUser form{
         width: 70%;
+        background-color: #141826;
+        border-radius: 10px;
     }
     .signUpUser input{
         height: 40px;
@@ -252,27 +250,26 @@ export default {
         border: 1px solid #283747;
     }
     .signUpUser button{
-        width: 100%;
+        width: 40%;
         height: 40px;
         color: #E5E7E9;
         background: #283747;
         border: 1px solid #E5E7E9;
         border-radius: 5px;
-        padding: 10px 25px;
-        margin: 5px 0 25px 0;
+        padding: 5px;
     }
     .signUpUser button:hover{
         color: #141826;
-        background: #268c79;
-        
+        background: #268c79;    
     }
     form{
-        
         padding: 2% 5% 2% 15%;
         text-align: left;
     }   
-    .formModel el-button:hover{
-		color: #141826;
-		background: #268c79;
-	}
+    .el-steps{
+        line-height: 16px;
+        text-align: center;
+        padding: 3% 3% 10% 3%;     
+    }
+    
 </style>

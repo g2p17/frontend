@@ -166,7 +166,7 @@ export default {
             this.$emit("loadHomePublic");
         },      
         returnLogin () {
-            this.$emit("loadLogIn");
+    this.$emit("loadLogIn");
         }
     },
     async mounted() {
@@ -182,7 +182,7 @@ export default {
         margin: 0;
         padding: 0%;
         height: 660px;
-        width: 100%;
+        width: 80%;
         display: flex;
         justify-content:center;
         align-items: right;
@@ -193,7 +193,7 @@ export default {
     }
   
     .signUpUser form{
-        width: 70%;
+        width: 80%;
         padding-top: 30%;
     }
     .signUpUser input{

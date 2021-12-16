@@ -23,7 +23,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="processLogInUser">LOGIN</el-button>
-                    <p><router-link to="/user/signUp"> Or create an account</router-link></p>
+                    <p><router-link to="/user/signUp"><a>Or create an account</a></router-link></p>
                 </el-form-item>
                 
             </el-form>
@@ -57,7 +57,7 @@ export default {
             await this.$store.dispatch("logInUser", this.user);
             
             if (this.err != null) {
-                this.error = this.err[0].body.detail;
+                this.error = this.err[0].body;
                 this.delayedGreeting();
                 return;
             }
@@ -111,10 +111,12 @@ export default {
     background-color: #141826;
     color: #e9f3f2;
 }
-loginUser button p{
+.loginUser button p{
     width: 50%;
-    height: 10%;
-    font-size: 12px;
+    height: 10%;  
+}
+.loginUser a{
+    font-size: 13px;
     color: aliceblue;
 }
 </style>
