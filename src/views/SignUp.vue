@@ -2,51 +2,55 @@
 	<div class="signUser">		
 		<div class="containersignUser">
 			<el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
-			<el-form ref="form" :model="user" label-width="100px" size="medium">
-				<el-form-item label="User">
+			
+			<el-form 
+			ref="user" 
+			:model="user"
+			:rules="rules"
+			label-width="100px" size="medium"
+			>
+				<el-form-item label="User" prop="username">
 					<el-input 
 					type="text"
 					v-model="user.username" 
 					placeholder="Your username"
 					></el-input>
 				</el-form-item>
-				<el-form-item label="Password">
+				<el-form-item label="Password" prop="password">
 					<el-input 
 					type="password"
 					v-model="user.password"
 					placeholder="Your more secret key"
 					></el-input>
 				</el-form-item>
-				<el-form-item label="Name">
+				<el-form-item label="Name" prop="name">
 					<el-input 
 					type="text" 
 					v-model="user.name" 
 					placeholder="Your name"
 					></el-input>
 				</el-form-item>
-				<el-form-item label="Email">
+				<el-form-item label="Email" prop="email">
 					<el-input 
 					type="email" 
 					v-model="user.email"
 					placeholder="Your principal email"
 					></el-input>
 				</el-form-item>
-				<el-form-item label="ID">
-					<el-input 
-					type="text"
+				<el-form-item label="ID" prop="identity_document">
+					<el-input		
 					v-model="user.identity_document"
 					placeholder="ID"
 					></el-input>
 				</el-form-item>
-				<el-form-item label="Mobile">
-					<el-input 
-					type="text"
+				<el-form-item label="mobile" prop="phone_number">
+					<el-input
 					v-model="user.phone_number"
 					placeholder="Your mobile number"
 					></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button @click="processSignUp">Submit</el-button>
+					<el-button @click="submitForm('user')">Submit</el-button>
 				</el-form-item>
 				<h3></h3>
 			</el-form>
@@ -71,7 +75,64 @@ export default {
 				email: "",
 			},
             error: undefined,
-            showError: false,			    
+            showError: false,
+			rules: {			
+				username: [
+					{
+						required: true,
+						message: 'Please input username',
+						trigger: 'blur',
+					},
+					{
+						min: 5,
+						max: 10,
+						message: 'Length should be 5 to 10',
+						trigger: 'blur',
+					},
+				],
+				password: [
+					{
+						required: true,
+						message: 'Please input password',
+						trigger: 'blur',
+					},
+					{
+						min: 8,
+						max: 20,
+						message: 'Length should be 8 to 20',
+						trigger: 'blur',
+					},
+				],
+				name: [
+					{
+						required: true,
+						message: 'Please input name',
+						trigger: 'blur',
+					},
+				],
+				email: [
+					{
+						type: 'email', 
+						required: true,
+						message: 'Please input email',
+						trigger: 'blur',
+					},
+				],
+				phone_number: [
+					{ 
+						required: true, 						
+						message: 'phone number is required',
+						trigger: 'blur',
+					},
+				],
+				identity_document: [
+					{
+						required: true,
+						message: 'Please input id',
+						trigger: 'blur',
+					},
+				],
+			}
 		};
 	},
 
@@ -84,7 +145,7 @@ export default {
 			await this.$store.dispatch("signUpUser", this.user);
 
 			if (this.err != null) {
-                this.error = this.err[0].body.email[0];
+                this.error = this.err[0];
                 this.delayedGreeting();
                 return;
             }
@@ -98,7 +159,21 @@ export default {
             this.showError = true;
             await this.mysleep(4000);
             this.showError = false;
-        },		
+        },
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					//alert('submit!')
+					this.processSignUp();
+				} else {
+					//console.log('error submit!!')
+					return false
+				}
+			})
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields()
+		},				
 	},
 };
 </script>
