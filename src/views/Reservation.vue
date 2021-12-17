@@ -5,7 +5,7 @@
 
             <el-steps :active="active" finish-status="success">
                 <el-step title="Your data"></el-step>
-                <el-step title="Processing"></el-step>
+                <el-step title="Add your plate"></el-step>
                 <el-step title="Reservation done"></el-step>
             </el-steps>
 
@@ -132,12 +132,12 @@ export default {
 
         let date = this.parseDate(tempReserve.entryTime);
 
-        this.formModel.message = `Reservación en progreso.\n\n
-                                  Hola ${ tempReserve.clientId }\n
+        this.formModel.message = `Reservation in progress.\n\n
+                                  Hi ${ tempReserve.clientId }\n
                                   Parking place: ${ tempReserve.parkingLot }\n
-                                  día: ${ date.newDate }\n
-                                  Hora: ${ date.newHour }\n
-                                  Precio: $${ tempReserve.price } COP\n`;
+                                  day: ${ date.newDate }\n
+                                  hour: ${ date.newHour }\n
+                                  price: $${ tempReserve.price } COP\n`;
 
         this.formModel.quotation = tempReserve;
 
@@ -151,33 +151,43 @@ export default {
 <style scoped>
 .reservation{
     margin: 0;
-    padding: 0;
+    padding: 0%;
     height: 660px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:  #268c79;
+    background-color: #141826;
     background-image: url("../assets/BGD2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
-.reservation button{
+.containereserv{
     width: 50%;
+    padding: 3%;
+    color: #e9f3f2;
+    background-color: #141826;
+    border-radius: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 40px;
+}
+.reservation button{
+    width: 40%;
     height: 40px;
     color: #E5E7E9;
-    background: #141826;
+    background: #283747;
     border: 1px solid #E5E7E9;
-    padding: 10px 30px;
+    border-radius: 5px;
+    padding: 5px;
 }
 .reservation button:hover{
     color: #141826;
-    background: #35f2bd; 
+    background: #268c79;
 }
-.containereserv{
-    width: 40%;
-    padding: 3%;
-    background-color: #141826;
-    color: #e9f3f2;
+.el-steps{
+        line-height: 16px;
+        text-align: center;
+        padding: 3% 3% 10% 3%;      
 }
+
 </style>
