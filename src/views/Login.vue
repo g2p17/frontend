@@ -3,18 +3,20 @@
         <div class="containerLogin">
             <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
             <el-form
-            ref="form" 
+            ref="user"
+            :model="user"
+            :rules="rules"
             label-width="100px" 
             size="medium"
             v-on:submit.prevent="processLogInUser"
-            ><el-form-item label="User">
+            ><el-form-item label="User" prop="username">
                     <el-input 
                     type="text"
                     v-model="user.username" 
                     placeholder="Your username"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="Password">
+                <el-form-item label="Password" prop="password">
                     <el-input 
                     type="password"
                     v-model="user.password" 
@@ -22,7 +24,7 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="processLogInUser">LOGIN</el-button>
+                    <el-button @click="submitForm('user')">LOGIN</el-button>
                     <p><router-link to="/user/signUp"><a>Or create an account</a></router-link></p>
                 </el-form-item>
                 
@@ -45,6 +47,34 @@ export default {
             },
             error: undefined,
             showError: false,
+			rules: {			
+				username: [
+					{
+						required: true,
+						message: 'Please input username',
+						trigger: 'blur',
+					},
+					{
+						min: 5,
+						max: 10,
+						message: 'Length should be 5 to 10',
+						trigger: 'blur',
+					},
+				],
+				password: [
+					{
+						required: true,
+						message: 'Please input password',
+						trigger: 'blur',
+					},
+					{
+						min: 8,
+						max: 20,
+						message: 'Length should be 8 to 20',
+						trigger: 'blur',
+					},
+				],
+            }            
         }
     },
 
@@ -75,6 +105,20 @@ export default {
         onSubmit() {
             console.log('submit!')
         },
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					//alert('submit!')
+					this.processLogInUser();
+				} else {
+					//console.log('error submit!!')
+					return false
+				}
+			})
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields()
+		},        
     }
 }
 </script>
