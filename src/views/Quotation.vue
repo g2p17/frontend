@@ -150,7 +150,7 @@ export default {
     },
 
     computed:{
-        ...mapGetters(["parkinglots", "detailQuoteState", "detailQuote"]),
+        ...mapGetters(["parkinglots", "detailQuoteState", "detailQuote", "err"]),
 
     },
 	methods: {
@@ -182,10 +182,12 @@ export default {
 
             await this.$store.dispatch("searchParkingLot", quotation);
 
-            if (this.err != null) {
+            if (this.err) {
                 //this.error = this.err[0].body.detail;
-                this.error = this.err[0];
+                this.error = this.err;
                 this.delayedGreeting();
+                this.$store.dispatch("resetError", undefined);
+                //console.log(this.err);
                 return;
             }
 
@@ -227,6 +229,14 @@ export default {
 			this.$refs[formName].resetFields()
             this.returnHome();
 		},
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },        
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
+        },        
     },
     async mounted() {
         await this.$store.dispatch("getParkinglots");

@@ -4,8 +4,8 @@ import graphqlClient from '../main';
 
 export const reservation = {
 	state: {
-		detailQuote: null,
-		detailQuoteState: null,
+		detailQuote: undefined,
+		detailQuoteState: undefined,
 		reserve: null,
 	},
 	getters: {
@@ -22,7 +22,7 @@ export const reservation = {
 		},		
 		setReserve(state, payload) {
 			state.reserve = payload;
-		}
+		},
 	},
 	actions: {
 		async searchParkingLot({ commit }, quote) {
@@ -58,6 +58,11 @@ export const reservation = {
 			} catch (error) {
 				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
 				console.info(err);
+				console.log(error.message)
+				if (err[0] == undefined) {
+					err = error.message;
+				}					
+
 				commit("setError", err);
 			}
 		},
@@ -91,9 +96,9 @@ export const reservation = {
 		updateDetailQuoteState({ commit }, detailQuote) {
 			commit("setDetailQuoteState", detailQuote);
 		},
-		resetState({ commit }, detailQuote) {
-			commit("setDetailQuoteState", detailQuote);
-		},	
+		resetError({ commit }, value) {
+			commit("setError", value);
+		}
 	},
 	modules: {
 	}

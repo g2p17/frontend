@@ -147,6 +147,7 @@ export default {
 			if (this.err != null) {
                 this.error = this.err[0];
                 this.delayedGreeting();
+				this.$store.dispatch("resetError", undefined);				
                 return;
             }
 

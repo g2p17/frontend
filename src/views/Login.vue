@@ -86,9 +86,11 @@ export default {
         processLogInUser: async function(){
             await this.$store.dispatch("logInUser", this.user);
             
-            if (this.err != null) {
-                this.error = this.err[0].body;
+            if (this.err != undefined) {
+                //console.log("hola " + this.err[0].body.detail)               
+                this.error = this.err[0].body.detail;
                 this.delayedGreeting();
+                this.$store.dispatch("resetError", undefined);
                 return;
             }
             
