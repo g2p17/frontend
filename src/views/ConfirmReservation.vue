@@ -3,15 +3,15 @@
     <div class="reservation">
         
         <div class="containereserv">
-            <el-steps :active="active" finish-status="success">
-                <el-step title="Confirm"></el-step>
-                <el-step title="Add your plate"></el-step>
-                <el-step title="DONE"></el-step>
-            </el-steps>
 
             <el-form ref="form" :model="formModel"  size="medium">
                 <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
                 <el-alert v-if="showMessage" :title="message" type="success" show-icon> </el-alert>
+                <el-steps :active="active" finish-status="success">
+                    <el-step title="Confirm"></el-step>
+                    <el-step title="Add your plate"></el-step>
+                    <el-step title="DONE"></el-step>
+                </el-steps>                
 
                 <el-form-item  label="">
                     {{ this.formModel.message }}
@@ -88,6 +88,7 @@ export default {
             this.message = this.reserve.reservation;
             this.delayedGreetingSuccess();
             this.pending = false;
+            this.clear();
             //this.$emit("loadHome");
         },
         prevStepone () {
@@ -116,6 +117,10 @@ export default {
                 newHour: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[1],
             };
         },
+        clear() {
+            this.$store.dispatch("updateDetailQuote", undefined);
+            this.$store.dispatch("updateDetailQuoteState", undefined);
+        },        
     },
 
     async mounted() {

@@ -2,9 +2,14 @@
     <div class="signUpUser">
 
         <div>
-            <el-form ref="form" :model="formModel"  size="large">               
+            <el-form 
+            ref="formModel"
+            :model="formModel"  
+            :rules="rules"
+            size="large"
+            >               
                 <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
-                <el-form-item>
+                <el-form-item prop="quotation.parkingPlace">
                     <el-select
                     v-model="formModel.quotation.parkingPlace"                    
                     placeholder="Please select your zone"
@@ -17,7 +22,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item>
+                <el-form-item prop="quotation.vehicleType">
                     <el-select
                     v-model="formModel.quotation.vehicleType"
                     placeholder="Your type vehicle"
@@ -30,24 +35,29 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item>
+                <el-form-item required>
                     <el-col :span="11">
-                        <el-date-picker
-                        v-model="formModel.quotation.date1"
-                        type="date"
-                        placeholder="Pick a date"
-                        style="width: 100%"
-                        ></el-date-picker>
+                        <el-form-item prop="quotation.date1">
+                            <el-date-picker
+                            v-model="formModel.quotation.date1"
+                            type="date"
+                            placeholder="Pick a date"
+                            style="width: 100%"
+                            ></el-date-picker>
+                        </el-form-item>
                     </el-col>
                     <el-col class="line" :span="2">-</el-col>
                     <el-col :span="11">
-                        <el-time-picker
-                        v-model="formModel.quotation.date2"
-                        placeholder="Pick a time"
-                        style="width: 100%"
-                        ></el-time-picker>
+                        <el-form-item prop="quotation.date2">                    
+                            <el-time-picker
+                            v-model="formModel.quotation.date2"
+                            placeholder="Pick a time"
+                            style="width: 100%"
+                            ></el-time-picker>
+                        </el-form-item>
                     </el-col>
                 </el-form-item>
+
                 <el-form-item >
                     <el-input-number  v-model="formModel.quotation.estimatedTime" :min="15" :max="1380"
                         placeholder="Estimated time in minutes"
@@ -55,8 +65,8 @@
                 </el-form-item>
 
                 <el-form-item size="large">
-                    <el-button type="primary" v-on:click="processQuote">Consult</el-button>
-                    <el-button type="danger" v-on:click="returnHome">Cancel</el-button>
+                    <el-button type="primary" v-on:click="submitForm('formModel')">Consult</el-button>
+                    <el-button type="danger" v-on:click="resetForm('formModel')">Cancel</el-button>
                 </el-form-item>
 
                 <Modal
@@ -95,6 +105,41 @@ export default {
                     estimatedTime: ref(1),
                 },
             },
+			rules: {
+                quotation: {                
+                    parkingPlace: [
+                        {
+                            required: true,
+                            message: 'Please select your zone',
+                            trigger: 'change',
+                        },
+                    ],
+                    vehicleType:  [
+                        {
+                            required: true,
+                            message: 'Please select your vehicle type',
+                            trigger: 'change',
+                        },
+                    ],
+                    date1: [
+                        {
+                            type: 'date',
+                            required: true,
+                            message: 'Please pick a date',
+                            trigger: 'change',
+                        },
+                    ],
+                    date2: [
+                        {
+                            type: 'date',
+                            required: true,
+                            message: 'Please pick a time',
+                            trigger: 'change',
+                        },
+                    ],                    
+                    estimatedTime: ref(1),
+                },
+            },            
             modalIsShow: false,
             error: undefined,
             showError: false,     
@@ -106,7 +151,7 @@ export default {
     },
 
     computed:{
-        ...mapGetters(["parkinglots", "detailQuoteState", "detailQuote"]),
+        ...mapGetters(["parkinglots", "detailQuoteState", "detailQuote", "err"]),
 
     },
 	methods: {
@@ -138,10 +183,12 @@ export default {
 
             await this.$store.dispatch("searchParkingLot", quotation);
 
-            if (this.err != null) {
+            if (this.err) {
                 //this.error = this.err[0].body.detail;
-                this.error = this.err[0];
+                this.error = this.err;
                 this.delayedGreeting();
+                this.$store.dispatch("resetError", undefined);
+                //console.log(this.err);
                 return;
             }
 
@@ -166,8 +213,31 @@ export default {
             this.$emit("loadHomePublic");
         },      
         returnLogin () {
-    this.$emit("loadLogIn");
-        }
+            this.$emit("loadLogIn");
+        },
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					//alert('submit!')
+					this.processQuote();
+				} else {
+					//console.log('error submit!!')
+					return false
+				}
+			})
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields()
+            this.returnHome();
+		},
+        mysleep: function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },        
+        delayedGreeting: async function () {
+            this.showError = true;
+            await this.mysleep(4000);
+            this.showError = false;
+        },        
     },
     async mounted() {
         await this.$store.dispatch("getParkinglots");
@@ -182,7 +252,7 @@ export default {
         margin: 0;
         padding: 0%;
         height: 660px;
-        width: 80%;
+        width: 100%;
         display: flex;
         justify-content:center;
         align-items: right;

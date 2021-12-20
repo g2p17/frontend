@@ -63,33 +63,39 @@ export default {
     
 	watch: {
         modalIsShow: function() {
-            const quotationUp = {
-                entryTime: this.parseDate(this.detailQuoteState.entryTime),
-                estimatedTime: this.detailQuoteState.estimatedTime,
-                parkingLot: this.detailQuoteState.parkingLot,
-                price: this.detailQuote.price,
-                state: this.detailQuote.state,
-                vehicleType: this.detailQuoteState.vehicleType,
-            };
+            let quotationUp = null;
+
+            if (this.detailQuoteState) {
+                quotationUp = {
+                    date1: this.parseDate(this.detailQuoteState.date1).split(',')[0],
+                    date2: this.parseDate(this.detailQuoteState.date2).split(',')[1],
+                    estimatedTime: this.detailQuoteState.estimatedTime,
+                    parkingLot: this.detailQuoteState.parkingLot,
+                    price: this.detailQuote.price,
+                    state: this.detailQuote.state,
+                    vehicleType: this.detailQuoteState.vehicleType,
+                };
           
-            if (this.detailQuoteState != '')
+            
                 this.message = `With us the parking of your ${ quotationUp.vehicleType.toLowerCase() } in ${ quotationUp.parkingLot } 
-                        the day ${ quotationUp.entryTime.newDate } at ${ quotationUp.entryTime.newHour } has a cost of $${ quotationUp.price } COP`;
+                        the day ${ quotationUp.date1 } at ${ quotationUp.date2 } has a cost of $${ quotationUp.price } COP`;
+            }
 		} 
 	},    
 
     methods: {
         handleSubmit() {
-            this.$store.dispatch("updateDetailQuote", '');
-            this.$store.dispatch("updateDetailQuoteState", '');
             this.$emit("close_modal", false);
+            //setTimeout(this.clear(), 2000);
+            this.clear();
         },
-        
-        parseDate(inputDate) {            
-            return {
-                newDate: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[0],
-                newHour: (new Date(inputDate).toLocaleString("es-Es", {timeZone: "America/Bogota"})).split(',')[1],
-            };
+        parseDate(inputDate) {     
+            return inputDate.toLocaleString("es-Es", {timeZone: "America/Bogota"});
+        },
+
+        clear() {
+            this.$store.dispatch("updateDetailQuote", undefined);
+            this.$store.dispatch("updateDetailQuoteState", undefined);
         },
 
         reserve () {
