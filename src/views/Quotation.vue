@@ -6,7 +6,8 @@
             ref="formModel"
             :model="formModel"  
             :rules="rules"
-            size="large">               
+            size="large"
+            >               
                 <el-alert v-if="showError" :title="error" type="error" show-icon> </el-alert>
                 <el-form-item prop="quotation.parkingPlace">
                     <el-select

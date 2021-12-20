@@ -3,19 +3,23 @@
     <div class="reservation">
         <div class="containereserv">
 
-            <el-steps :active="active" finish-status="success">
-                <el-step title="Your data"></el-step>
-                <el-step title="Add your plate"></el-step>
-                <el-step title="Reservation done"></el-step>
-            </el-steps>
-
-            <el-form ref="form" :model="formModel"  size="medium">
+            <el-form 
+            ref="formModel" 
+            :model="formModel"
+            :rules="rules"
+            size="medium"
+            >                
+                <el-steps :active="active" finish-status="success">
+                    <el-step title="Your data"></el-step>
+                    <el-step title="Add your plate"></el-step>
+                    <el-step title="Reservation done"></el-step>
+                </el-steps>
 
                 <el-form-item  label="">
                     {{ this.formModel.message }}
                 </el-form-item>
 
-                <el-form-item lable="Vehicle type">
+                <el-form-item lable="Vehicle type" prop="quotation.vehicleType">
                     <el-select
                     v-model="formModel.quotation.vehicleType"
                     placeholder="Your type vehicle type"
@@ -28,7 +32,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item lable="Vehicle plate">
+                <el-form-item lable="Vehicle plate" prop="quotation.vehiclePlate">
                     <el-input  v-model="formModel.quotation.vehiclePlate"
                         placeholder="Your type vehicle Plate"
                     clearable/>
@@ -36,7 +40,7 @@
 
                 <el-form-item size="large">
                     <el-button type="primary" v-on:click="prevStepone">Previous</el-button>
-                    <el-button type="primary" v-on:click="nextSteptwo">Next</el-button>
+                    <el-button type="primary" v-on:click="submitForm('formModel')">Next</el-button>
                 </el-form-item>
     
             </el-form>
@@ -73,9 +77,33 @@ export default {
                     },
                     vehiclePlate    : '',
                     vehicleType     : '',
-                },
+                },                
                 message: '',
             },
+            rules: {
+                quotation: {                
+                    vehicleType:  [
+                        {
+                            required: true,
+                            message: 'Please select your vehicle type',
+                            trigger: 'change',
+                        },
+                    ],
+                    vehiclePlate: [
+                        {
+                            required: true,
+                            message: 'Please input vehicle plate',
+                            trigger: 'blur',
+                        },
+                        {
+                            min: 6,
+                            max: 20,
+                            message: 'Length should be 6 to 20',
+                            trigger: 'blur',
+                        },
+                    ],
+                },
+            },            
             active: 0,
         };
     },
@@ -105,7 +133,7 @@ export default {
                 price: this.detailQuote.price,
                 date1: this.detailQuoteState.date1,
                 date2: this.detailQuoteState.date2, 
-                vehiclePlate: this.formModel.quotation.vehiclePlate,
+                vehiclePlate: this.formModel.quotation.vehiclePlate.toUpperCase(),
                 vehicleType: this.formModel.quotation.vehicleType,
             }
 
@@ -117,6 +145,21 @@ export default {
             this.active = 1;
             this.$emit("loadQuotationm");
         },
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					//alert('submit!')
+					this.nextSteptwo();
+				} else {
+					//console.log('error submit!!')
+					return false
+				}
+			})
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields()
+            this.returnHome();
+		},        
     },
     async mounted() {
 
