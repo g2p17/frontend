@@ -13,6 +13,7 @@ import ConfirmReserve									from '../views/ConfirmReservation.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
 import Reservation										from '../views/Reservation.vue'
 import AdminUI											from '../views/AdminUI.vue'
+import AdminSignUp										from '../views/AdminSignUp.vue'
 
 const routes = [
 	{
@@ -81,6 +82,12 @@ const routes = [
 		component: AdminUI,
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/admin/signUp',
+		name: "adminSignUp",
+		component: AdminSignUp,
+		meta: { requiresAuth: false }
+	},	
 ]
 
 const router = createRouter({

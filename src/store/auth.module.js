@@ -112,7 +112,44 @@ export const auth = {
 				console.info(err);
 				commit("setError", err);
 			}
-		},		
+		},
+		async signUpAdmin({ commit }, admin) {
+			try {
+				console.log(admin);
+				const response = await graphqlClient.mutate({
+					mutation: gql`
+						mutation Mutation($userInput: SignUpInputAdmin) {
+						signUpUserAdmin(userInput: $userInput) {
+							refresh
+							access
+						}
+					}`,
+					variables:{
+						userInput: admin,
+					}
+                });
+				let sessionInfo = {
+                    username     : admin.username,
+                    tokenAccess  : response.data.signUpUserAdmin.access,
+                    tokenRefresh : response.data.signUpUserAdmin.refresh,
+                }
+                console.log(sessionInfo);
+				commit("setSession", sessionInfo);
+			} catch (error) {
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+
+				const body = err[0].body;
+				//console.log(body);
+				let errorMessage = ''
+				for (let property in body) {
+					if (Object.prototype.hasOwnProperty.call(body, property))
+						errorMessage += " " + body[property] + "\n";
+				}
+
+				console.log(errorMessage);
+				commit("setError", errorMessage);
+			}
+		},
 	},
 	modules: {
 	}
