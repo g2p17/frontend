@@ -12,7 +12,7 @@ import QuotationAuth 									from '../views/QuotationAuth.vue'
 import ConfirmReserve									from '../views/ConfirmReservation.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
 import Reservation										from '../views/Reservation.vue'
-import AdminUI											from '../views/AdminUI.vue'
+import AdminHome										from '../views/AdminUI.vue'
 import AdminSignUp										from '../views/AdminSignUp.vue'
 
 const routes = [
@@ -77,9 +77,9 @@ const routes = [
 		meta: { requiresAuth: true }
 	},
 	{
-		path: '/adminUI',
-		name: "adminUI",
-		component: AdminUI,
+		path: '/admin/home',
+		name: "adminHome",
+		component: AdminHome,
 		meta: { requiresAuth: true }
 	},
 	{

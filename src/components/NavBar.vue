@@ -14,7 +14,7 @@
 			<button v-if="!isauth" v-on:click="loadQuotationm">QUOTE</button>
 			<button v-if="!isauth" v-on:click="loadLogInm">LOGIN</button>			
 			<button v-if="!isauth" v-on:click="loadSignUpm">SIGN</button>
-			<button v-if="isauth" v-on:click="loadQuotationm">BOOK</button>
+			<button v-if="isCustomer()" v-on:click="loadQuotationm">BOOK</button>
 			<button v-if="isauth" v-on:click="logOutm">LOGOUT</button>
 		</nav>
 	</div> 
@@ -24,7 +24,8 @@
 export default {
     name: 'NavBar',
 	props: {
-		isauth: undefined
+		isauth: undefined,
+		role: undefined,
 	},
 	methods: {
 		loadHomem() {
@@ -48,8 +49,17 @@ export default {
 		loadQuotationm() {
 			this.$emit("loadQuotation")
 		},
-				
-	}
+		isCustomer() {
+			if (this.isauth && this.role == 'customer')
+				return true;
+			
+			return false;
+		}
+	},
+	mounted() {
+
+	},
+
 }
 </script>
 

@@ -38,6 +38,7 @@ export const auth = {
 								email
 								identity_document
 								phone_number
+								role
 							}
 					}`,
 					variables: {
