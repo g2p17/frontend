@@ -12,7 +12,11 @@ import QuotationAuth 									from '../views/QuotationAuth.vue'
 import ConfirmReserve									from '../views/ConfirmReservation.vue'
 import CheckAvailable									from '../views/CheckAvailable.vue'
 import Reservation										from '../views/Reservation.vue'
-import AdminUI											from '../views/AdminUI.vue'
+import AdminHome										from '../views/AdminUI.vue'
+import AdminSignUp										from '../views/AdminSignUp.vue'
+import AdminParkingLots									from '../views/AdminParkingLots.vue'
+import AdminReservations								from '../views/AdminReservations.vue'
+import AdminCustomers									from '../views/AdminCustomers.vue'
 
 const routes = [
 	{
@@ -76,11 +80,35 @@ const routes = [
 		meta: { requiresAuth: true }
 	},
 	{
-		path: '/adminUI',
-		name: "adminUI",
-		component: AdminUI,
+		path: '/admin/home',
+		name: "adminHome",
+		component: AdminHome,
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/admin/signUp',
+		name: "adminSignUp",
+		component: AdminSignUp,
+		meta: { requiresAuth: false }
+	},
+	{
+		path: '/admin/parkinglots',
+		name: "adminParkingLots",
+		component: AdminParkingLots,
+		meta: { requiresAuth: true }
+	},
+	{
+		path: '/admin/reservations',
+		name: "adminReservations",
+		component: AdminReservations,
+		meta: { requiresAuth: true }
+	},
+	{
+		path: '/admin/customers',
+		name: "adminCustomers",
+		component: AdminCustomers,
+		meta: { requiresAuth: true }
+	},	
 ]
 
 const router = createRouter({

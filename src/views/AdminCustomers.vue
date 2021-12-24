@@ -29,7 +29,7 @@
         </el-form> 
 
         <el-table
-        :data="reservationsByParkinglot.filter(
+        :data="customersByParkinglot.filter(
         (data) =>
           !search || data.vehiclePlate.toLowerCase().includes(search.toLowerCase())
         )" 
@@ -40,11 +40,11 @@
         style="width: 80%"   
         >
             <el-table-column type="index" width="50" />
-            <el-table-column prop="vehiclePlate" label="Vehicle plate" width="150" />
+            <el-table-column prop="clientId" label="Username" width="150" />            
+            <el-table-column prop="parkingLot" label="Parking place" width="150" />
             <el-table-column prop="vehicleType" label="Vehicle type" width="150" />
-            <el-table-column prop="entryTime" label="Entry Time" width="220" />
-            <el-table-column prop="estimatedTime" label="Estimated time" width="150" />
-
+            <el-table-column prop="vehiclePlate" label="Vehicle plate" width="150" />
+        
         </el-table>
 
     </div>    
@@ -83,7 +83,7 @@ export default {
     },  
 
     computed: {
-        ...mapGetters(["reservationsByParkinglot", "parkinglotsByadmin", "err", "userDetailById"]),
+        ...mapGetters(["customersByParkinglot", "parkinglotsByadmin", "err", "userDetailById"]),
     },
 
     methods: {
@@ -98,7 +98,7 @@ export default {
         },        
         showReservations: async function() {
             console.log(this.formModel.quotation.parkingPlace);
-            await this.$store.dispatch("getParkingLotByParkinglot", this.formModel.quotation.parkingPlace);
+            await this.$store.dispatch("getParkingLotCustomers", this.formModel.quotation.parkingPlace);
         },
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
