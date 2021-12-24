@@ -173,7 +173,11 @@ export const reservation = {
 	
 				commit("setError", err);
 			}
-		},		
+		},
+		updateReservationState({ commit }) {
+			commit("setReservationsByParkinglot", []);
+			commit("setCustomersByParkinglot", []);
+		},			
 	},	
 	modules: {
 	}

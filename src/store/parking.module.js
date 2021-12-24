@@ -86,6 +86,9 @@ export const parking = {
 				commit("setError", err);
 			}
 		},
+		updateParkingState({ commit }) {
+			commit("setParkinglotsByadmin", []);
+		}
 	
 	},
 	modules: {
