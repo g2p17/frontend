@@ -73,7 +73,7 @@ export default {
                 vehicleType: this.detailQuoteState.vehicleType,
                 entryTime: this.detailQuoteState.entryTime,
                 estimatedTime: this.detailQuoteState.estimatedTime,
-                vehiclePlate: this.detailQuoteState.vehicleType,
+                vehiclePlate: this.detailQuoteState.vehiclePlate,
             }
 
             await this.$store.dispatch("createReserve", reservationInput);
