@@ -16,6 +16,7 @@ import AdminHome										from '../views/AdminUI.vue'
 import AdminSignUp										from '../views/AdminSignUp.vue'
 import AdminParkingLots									from '../views/AdminParkingLots.vue'
 import AdminReservations								from '../views/AdminReservations.vue'
+import AdminCustomers									from '../views/AdminCustomers.vue'
 
 const routes = [
 	{
@@ -102,6 +103,12 @@ const routes = [
 		component: AdminReservations,
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/admin/customers',
+		name: "adminCustomers",
+		component: AdminCustomers,
+		meta: { requiresAuth: true }
+	},	
 ]
 
 const router = createRouter({

@@ -3,7 +3,7 @@
     <table class="admintable"> 
         <div>
             <router-link to="/admin/parkinglots"><button>Parking Lots</button></router-link>
-            <router-link to="/quotation"><button>Customers</button></router-link>
+            <router-link to="/admin/customers"><button>Customers</button></router-link>
             <router-link to="/admin/reservations"><button>Reservations</button></router-link>
         </div>
     </table>

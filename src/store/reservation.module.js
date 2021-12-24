@@ -7,12 +7,14 @@ export const reservation = {
 		detailQuote: undefined,
 		detailQuoteState: undefined,
 		reservationsByParkinglot: [],
+		customersByParkinglot: [],
 		reserve: null,
 	},
 	getters: {
 		detailQuote: state => state.detailQuote,
 		detailQuoteState: state => state.detailQuoteState,
 		reservationsByParkinglot: state => state.reservationsByParkinglot,
+		customersByParkinglot: state => state.customersByParkinglot,
 		reserve: state => state.reserve,
 	},	
 	mutations: {
@@ -27,6 +29,9 @@ export const reservation = {
 		},
 		setReservationsByParkinglot(state, payload) {
 			state.reservationsByParkinglot = payload;
+		},
+		setCustomersByParkinglot(state, payload) {
+			state.customersByParkinglot = payload;
 		}
 	},
 	actions: {
@@ -127,6 +132,37 @@ export const reservation = {
 	
 				console.info(response.data.reservationsDetailByparkingLot);
 				commit("setReservationsByParkinglot", response.data.reservationsDetailByparkingLot);
+			} catch (error) {
+				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
+				console.info(err);
+				console.log(error.message)
+				if (err[0] == undefined) {
+					err = error.message;
+				}					
+	
+				commit("setError", err);
+			}
+		},
+		async getParkingLotCustomers({ commit }, parkingPlace) {
+
+			try {
+				const response = await graphqlClient.query({
+					query: gql`
+					query Query($parkinglot: String!) {
+						reservationsDetailByparkingLotCustomers(parkinglot: $parkinglot) {
+							clientId
+							vehicleType
+							parkingLot
+							vehiclePlate
+						}
+					}`,
+					variables: {
+						parkinglot: parkingPlace,
+					},
+				});
+	
+				console.info(response.data.reservationsDetailByparkingLotCustomers);
+				commit("setCustomersByParkinglot", response.data.reservationsDetailByparkingLotCustomers);
 			} catch (error) {
 				let err = error.graphQLErrors.map(({ extensions }) => extensions.response);
 				console.info(err);
